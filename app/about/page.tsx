@@ -15,12 +15,12 @@ export default async function AboutPage() {
     return (
       <div className="section">
         <h1>About Me</h1>
-        <p>I'm a passionate developer who loves building things that make a difference.</p>
+        <p>I&apos;m a passionate developer who loves building things that make a difference.</p>
         
         <div className="card">
           <div className="card-body">
             <h2>My Journey</h2>
-            <p>I started my journey in software development with a curiosity about how things work. Over the years, I've worked on various projects ranging from web applications to mobile apps, always focusing on creating user-friendly and efficient solutions.</p>
+            <p>I started my journey in software development with a curiosity about how things work. Over the years, I&apos;ve worked on various projects ranging from web applications to mobile apps, always focusing on creating user-friendly and efficient solutions.</p>
             
             <h2>What I Do</h2>
             <p>I specialize in full-stack development, with expertise in:</p>
@@ -33,7 +33,7 @@ export default async function AboutPage() {
             </ul>
             
             <h2>Beyond Code</h2>
-            <p>When I'm not coding, you'll find me exploring new technologies, contributing to open source projects, or sharing knowledge through writing and speaking.</p>
+            <p>When I&apos;m not coding, you&apos;ll find me exploring new technologies, contributing to open source projects, or sharing knowledge through writing and speaking.</p>
           </div>
         </div>
       </div>
