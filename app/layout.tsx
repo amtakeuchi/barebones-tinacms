@@ -11,7 +11,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Your Portfolio</title>
+        <title>My Portfolio</title>
         <meta name="description" content="Personal portfolio and blog showcasing my work and thoughts" />
       </head>
       <body>
@@ -19,7 +19,7 @@ export default function RootLayout({
           <div className="container">
             <nav className="nav">
               <Link href="/" className="nav-brand">
-                Your Name
+                Securi-Tee
               </Link>
               
               <div className="nav-links">
@@ -36,7 +36,7 @@ export default function RootLayout({
         
         <footer className="footer">
           <div className="footer-content">
-            <p>© 2025 Your Name. Built with Next.js and TinaCMS.</p>
+            <p>© 2025 Securi-Tee.</p>
           </div>
         </footer>
       </body>
