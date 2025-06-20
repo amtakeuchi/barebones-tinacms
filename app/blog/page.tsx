@@ -22,7 +22,7 @@ export default async function BlogPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="max-w-6xl mx-auto px-4 py-12">
       {/* Header Section */}
       <section className="mb-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Blog</h1>
@@ -34,11 +34,11 @@ export default async function BlogPage() {
       
       {/* Blog Posts Grid */}
       {posts.length > 0 ? (
-        <div className="grid gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => {
             if (!post) return null;
             return (
-              <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+              <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
                 {post.featuredImage && (
                   <div className="aspect-video bg-gray-200 dark:bg-gray-700 relative">
                     <Image 
@@ -54,7 +54,7 @@ export default async function BlogPage() {
                     <time dateTime={post.date}>
                       {new Date(post.date).toLocaleDateString('en-US', {
                         year: 'numeric',
-                        month: 'long',
+                        month: 'short',
                         day: 'numeric'
                       })}
                     </time>
@@ -65,7 +65,7 @@ export default async function BlogPage() {
                       </>
                     )}
                   </div>
-                  <h2 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">
+                  <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white line-clamp-2">
                     <Link 
                       href={`/blog/${post._sys.filename}`}
                       className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -74,7 +74,7 @@ export default async function BlogPage() {
                     </Link>
                   </h2>
                   {post.excerpt && (
-                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed line-clamp-3">
                       {post.excerpt}
                     </p>
                   )}
