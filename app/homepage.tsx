@@ -4,134 +4,163 @@ import { client } from "../tina/__generated__/client";
 export default async function HomePage() {
   // Fetch latest blog posts and projects
   const postsResponse = await client.queries.postConnection();
-  const latestPosts = postsResponse.data.postConnection.edges.slice(0, 3);
+  const projectsResponse = await client.queries.projectConnection();
+  
+  const latestPosts = (postsResponse.data.postConnection.edges ?? [])
+    .filter((edge) => edge && edge.node)
+    .slice(0, 3);
+  const featuredProjects = (projectsResponse.data.projectConnection.edges ?? [])
+    .filter((edge) => edge && edge.node && edge.node.featured)
+    .slice(0, 3);
 
   return (
     <div>
       {/* Hero Section */}
-      <section style={{
-        textAlign: "center" as const,
-        padding: "4rem 0",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        color: "white",
-        borderRadius: "12px",
-        marginBottom: "4rem"
-      }}>
-        <h1 style={{
-          fontSize: "3rem",
-          margin: "0 0 1rem 0",
-          fontWeight: "bold"
-        }}>
-          Welcome to My Website
-        </h1>
-        <p style={{
-          fontSize: "1.2rem",
-          margin: "0 0 2rem 0",
-          opacity: 0.9
-        }}>
-          Developer, Writer, Creator - Sharing my journey through code and creativity
+      <section className="hero">
+        <h1>Welcome to My Portfolio</h1>
+        <p>
+          Full-stack developer passionate about creating meaningful digital experiences. 
+          I write about technology, build projects, and share my journey.
         </p>
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-          <Link href="/about" style={buttonStyle}>
+        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/about" className="btn btn-primary">
             Learn About Me
           </Link>
-          <Link href="/projects" style={{...buttonStyle, background: "transparent", border: "2px solid white"}}>
+          <Link href="/projects" className="btn btn-secondary">
             View My Work
           </Link>
         </div>
       </section>
 
       {/* About Preview */}
-      <section style={{ marginBottom: "4rem" }}>
-        <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>About Me</h2>
-        <p style={{ fontSize: "1.1rem", lineHeight: "1.6", color: "#666", marginBottom: "1.5rem" }}>
-          I'm passionate about creating digital experiences and sharing knowledge through writing. 
-          When I'm not coding, you'll find me exploring new technologies and working on exciting projects.
+      <section className="section">
+        <h2>About Me</h2>
+        <p>
+          I'm a passionate developer who loves building things that make a difference. 
+          When I'm not coding, you'll find me exploring new technologies, writing about 
+          what I learn, and contributing to open source projects.
         </p>
-        <Link href="/about" style={linkButtonStyle}>
+        <Link href="/about" className="btn btn-ghost">
           Read More About Me →
         </Link>
       </section>
 
+      {/* Featured Projects */}
+      {featuredProjects.length > 0 && (
+        <section className="section">
+          <div className="section-header">
+            <h2 className="section-title">Featured Projects</h2>
+            <Link href="/projects" className="btn btn-ghost">
+              View All Projects →
+            </Link>
+          </div>
+          
+          <div className="grid grid-3">
+            {featuredProjects.map((projectEdge) => {
+              if (!projectEdge || !projectEdge.node) return null;
+              const project = projectEdge.node;
+              return (
+                <article key={project.id} className="project-card">
+                  {project.featuredImage && (
+                    <img 
+                      src={project.featuredImage} 
+                      alt={project.title}
+                      className="project-image"
+                    />
+                  )}
+                  <div className="project-content">
+                    <h3 className="project-title">
+                      <Link href={`/projects/${project._sys.filename}`}>
+                        {project.title}
+                      </Link>
+                    </h3>
+                    <p className="project-description">
+                      {project.description}
+                    </p>
+                    {project.technologies && (
+                      <div className="project-tech">
+                        {project.technologies.split(',').map((tech, index) => (
+                          <span key={index} className="tech-tag">
+                            {tech.trim()}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="project-links">
+                      {project.githubUrl && (
+                        <a href={project.githubUrl} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+                          GitHub
+                        </a>
+                      )}
+                      {project.demoUrl && (
+                        <a href={project.demoUrl} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                          Live Demo
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {/* Latest Blog Posts */}
-      <section style={{ marginBottom: "4rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-          <h2 style={{ fontSize: "2rem", margin: 0 }}>Latest Blog Posts</h2>
-          <Link href="/blog" style={linkButtonStyle}>
+      <section className="section">
+        <div className="section-header">
+          <h2 className="section-title">Latest Blog Posts</h2>
+          <Link href="/blog" className="btn btn-ghost">
             View All Posts →
           </Link>
         </div>
         
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "2rem"
-        }}>
-          {latestPosts.map((post) => (
-            <article key={post.node.id} style={cardStyle}>
-              <h3 style={{ fontSize: "1.3rem", marginBottom: "0.5rem" }}>
-                <Link href={`/posts/${post.node._sys.filename}`} style={{ textDecoration: "none", color: "#333" }}>
-                  {post.node.title}
-                </Link>
-              </h3>
-              <p style={{ color: "#666", fontSize: "0.9rem", marginBottom: "1rem" }}>
-                {new Date(post.node.date).toLocaleDateString()}
-              </p>
-              <p style={{ color: "#555", lineHeight: "1.5" }}>
-                {post.node.excerpt || "Click to read more..."}
-              </p>
-            </article>
-          ))}
+        <div className="grid grid-2">
+          {latestPosts.map((postEdge) => {
+            if (!postEdge || !postEdge.node) return null;
+            const post = postEdge.node;
+            return (
+              <article key={post.id} className="blog-card">
+                <div className="card-body">
+                  <div className="blog-meta">
+                    {post.date && new Date(post.date).toLocaleDateString()}
+                    {post.author && ` • ${post.author}`}
+                  </div>
+                  <h3>
+                    <Link href={`/posts/${post._sys.filename}`}>
+                      {post.title}
+                    </Link>
+                  </h3>
+                  <p>
+                    {post.excerpt || "Click to read more..."}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         {latestPosts.length === 0 && (
-          <p style={{ textAlign: "center" as const, color: "#666", padding: "2rem" }}>
-            No blog posts yet. Start writing your first post!
-          </p>
+          <div className="text-center p-4">
+            <p>No blog posts yet. Start writing your first post!</p>
+          </div>
         )}
       </section>
 
       {/* CTA Section */}
-      <section style={{
-        background: "#f8f9fa",
-        padding: "3rem",
-        borderRadius: "12px",
-        textAlign: "center" as const
-      }}>
-        <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Let's Connect</h2>
-        <p style={{ fontSize: "1.1rem", color: "#666", marginBottom: "2rem" }}>
-          Have a project in mind or just want to say hello? I'd love to hear from you.
-        </p>
-        <Link href="/contact" style={buttonStyle}>
-          Get In Touch
-        </Link>
+      <section className="section">
+        <div className="card text-center">
+          <div className="card-body">
+            <h2>Let's Connect</h2>
+            <p>
+              Have a project in mind or just want to say hello? I'd love to hear from you.
+            </p>
+            <Link href="/contact" className="btn btn-primary">
+              Get In Touch
+            </Link>
+          </div>
+        </div>
       </section>
     </div>
   );
 }
-
-const buttonStyle = {
-  display: "inline-block",
-  padding: "0.75rem 2rem",
-  background: "white",
-  color: "#667eea",
-  textDecoration: "none",
-  borderRadius: "6px",
-  fontWeight: "600" as const,
-  transition: "transform 0.2s"
-};
-
-const linkButtonStyle = {
-  color: "#667eea",
-  textDecoration: "none",
-  fontWeight: "600" as const,
-  fontSize: "1rem"
-};
-
-const cardStyle = {
-  background: "white",
-  padding: "1.5rem",
-  borderRadius: "8px",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-  border: "1px solid #e9ecef"
-};
