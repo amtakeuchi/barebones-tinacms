@@ -10,7 +10,7 @@ export default async function BlogPage() {
     const allPosts = (postsResponse.data.postConnection.edges ?? [])
       .filter((edge): edge is NonNullable<typeof edge> => edge !== null && edge.node !== null)
       .map((edge) => edge.node)
-      .filter((post) => post && post.date);
+      .filter((post) => post && post.date) as Array<{ date: string; [key: string]: any }>;
     
     posts = allPosts.sort((a, b) => {
       const dateA = new Date(a.date).getTime();

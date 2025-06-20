@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    tina: {
-      enabled: true,
-    },
-  },
   images: {
     domains: ['localhost'],
     remotePatterns: [
@@ -17,10 +12,6 @@ const nextConfig = {
         hostname: 'localhost',
       },
     ],
-  },
-  // Disable static generation for pages that use TinaCMS
-  async generateStaticParams() {
-    return [];
   },
   async rewrites() {
     return [
