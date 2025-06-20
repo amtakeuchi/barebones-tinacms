@@ -9,7 +9,7 @@ export const config = defineConfig({
     process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || // Vercel branch env
     process.env.HEAD || // Netlify branch env
     "main", // fallback
-  token: process.env.TINA_TOKEN || "local",
+  token: process.env.NEXT_PUBLIC_TINA_TOKEN || process.env.TINA_TOKEN || "local",
   media: {
     // If you wanted cloudinary do this
     // loadCustomStore: async () => {
