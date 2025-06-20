@@ -1,4 +1,4 @@
-import Link from "next/link";
+uimport Link from "next/link";
 import React from "react";
 
 export default function RootLayout({
@@ -10,7 +10,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Your Website</title>
+        <title>Securi-Tee</title>
       </head>
       <body style={{ margin: 0, fontFamily: "system-ui, sans-serif" }}>
         <header style={{
@@ -63,7 +63,7 @@ export default function RootLayout({
           textAlign: "center" as const
         }}>
           <p style={{ margin: 0, color: "#666" }}>
-            © 2025 Your Name. Built with Next.js and TinaCMS.
+            © 2025 Securi-Tee
           </p>
         </footer>
       </body>
