@@ -2,6 +2,7 @@ import { client } from "../../../tina/__generated__/client";
 import { notFound } from "next/navigation";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import Link from "next/link";
+import Image from "next/image";
 
 interface BlogPostPageProps {
   params: { slug: string };
@@ -67,11 +68,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Featured Image */}
         {postContent.featuredImage && (
-          <div className="mb-8">
-            <img 
+          <div className="mb-8 relative h-64 md:h-96">
+            <Image 
               src={postContent.featuredImage} 
               alt={postContent.title} 
-              className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+              fill
+              className="object-cover rounded-lg shadow-lg"
             />
           </div>
         )}

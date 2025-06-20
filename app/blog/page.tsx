@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { client } from "../../tina/__generated__/client";
 
 export default async function BlogPage() {
@@ -39,11 +40,12 @@ export default async function BlogPage() {
             return (
               <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
                 {post.featuredImage && (
-                  <div className="aspect-video bg-gray-200 dark:bg-gray-700">
-                    <img 
+                  <div className="aspect-video bg-gray-200 dark:bg-gray-700 relative">
+                    <Image 
                       src={post.featuredImage} 
                       alt={post.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 )}
@@ -100,7 +102,7 @@ export default async function BlogPage() {
             </div>
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No blog posts yet</h3>
             <p className="text-gray-700 dark:text-gray-300 mb-6">
-              I'm working on some great content about cybersecurity, threat hunting, and IT insights. 
+              I&apos;m working on some great content about cybersecurity, threat hunting, and IT insights. 
               Check back soon for my first post!
             </p>
             <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">

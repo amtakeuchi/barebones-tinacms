@@ -5,6 +5,19 @@ const nextConfig = {
       enabled: true,
     },
   },
+  images: {
+    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
+  },
   // Disable static generation for pages that use TinaCMS
   async generateStaticParams() {
     return [];
