@@ -7,7 +7,7 @@ export default async function AboutPage() {
     const aboutResponse = await client.queries.page({ relativePath: "about.mdx" });
     aboutContent = aboutResponse.data.page;
   } catch (error) {
-    console.log("No about.mdx found, showing default content");
+    console.log("No about.mdx found or TinaCMS not available, showing default content");
     aboutContent = null;
   }
 

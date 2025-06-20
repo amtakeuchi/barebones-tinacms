@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
-
-module.exports = {
+const nextConfig = {
+  experimental: {
+    tina: {
+      enabled: true,
+    },
+  },
+  // Disable static generation for pages that use TinaCMS
+  async generateStaticParams() {
+    return [];
+  },
   async rewrites() {
     return [
       {
@@ -14,3 +22,5 @@ module.exports = {
     ];
   },
 }
+
+module.exports = nextConfig
