@@ -83,7 +83,6 @@ var config = defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "local",
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || // custom branch env override
   process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || // Vercel branch env
-  process.env.HEAD || // Netlify branch env
   "main",
   // fallback
   token: process.env.NEXT_PUBLIC_TINA_TOKEN || process.env.TINA_TOKEN || "local",
@@ -107,7 +106,9 @@ var config = defineConfig({
   },
   schema: {
     collections: [page_default, post_default]
-  }
+  },
+  // Use local mode for admin to avoid CORS issues
+  localApi: true
 });
 var config_default = config;
 export {
