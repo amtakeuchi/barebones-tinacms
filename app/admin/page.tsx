@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 
 export default function AdminPage() {
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -19,7 +18,6 @@ export default function AdminPage() {
         }
       } catch (err) {
         setError('Failed to load admin interface');
-        setIsLoading(false);
       }
     };
 
