@@ -23,7 +23,7 @@ export default async function TinaTestPage() {
 
   try {
     // Test connection
-    const result = await client.queries.pageConnection();
+    await client.queries.pageConnection();
     connectionTest = "✅ Success";
     clientConfig = {
       token: process.env.NEXT_PUBLIC_TINA_TOKEN ? "SET" : "NOT SET",
@@ -73,7 +73,7 @@ export default async function TinaTestPage() {
       <div style={{ marginTop: "2rem", padding: "1rem", background: "#fff3cd", borderRadius: "4px" }}>
         <h3>Troubleshooting Tips:</h3>
         <ul>
-          <li>If token shows "NOT SET", check your environment variables in Vercel</li>
+          <li>If token shows &quot;NOT SET&quot;, check your environment variables in Vercel</li>
           <li>Make sure NEXT_PUBLIC_TINA_TOKEN is set in Vercel environment variables</li>
           <li>Verify your TinaCMS project settings and allowed origins</li>
           <li>Check that your token is valid and has the correct permissions</li>
