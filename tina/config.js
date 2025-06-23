@@ -28,6 +28,8 @@ export const config = defineConfig({
   schema: {
     collections: [page, post],
   },
+  // Use local mode for admin to avoid CORS issues
+  localApi: process.env.NODE_ENV === 'development',
 });
 
 // A comment to force a change

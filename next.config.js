@@ -13,15 +13,24 @@ const nextConfig = {
       },
     ],
   },
-  async rewrites() {
+  async headers() {
     return [
       {
-        source: "/",
-        destination: "/home",
-      },
-      {
-        source: "/admin",
-        destination: "/admin/index.html",
+        source: '/admin/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization',
+          },
+        ],
       },
     ];
   },
