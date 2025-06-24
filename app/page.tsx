@@ -49,9 +49,11 @@ export default async function HomePage() {
             <p className="mt-2">
               Want to connect, collaborate, or chat about security challenges? I&apos;d love to hear from you.
             </p>
-            <p>
-              <strong>Email:</strong> your.email@example.com
-            </p>
+            <div className="flex justify-center flex-wrap gap-4 mt-4">
+              <Link href="/contact" className="btn btn-primary">
+                Contact Me
+              </Link>
+            </div>
           </div>
         </div>
       </section>
