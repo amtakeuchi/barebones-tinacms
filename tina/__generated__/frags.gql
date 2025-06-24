@@ -12,3 +12,13 @@ fragment PostParts on Post {
   featuredImage
   body
 }
+
+fragment ProjectParts on Project {
+  __typename
+  title
+  category
+  thumbnail
+  description
+  liveLink
+  repoLink
+}

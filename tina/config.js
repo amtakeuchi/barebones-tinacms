@@ -1,6 +1,7 @@
 import { defineConfig } from "tinacms";
 import page from "./collections/page";
 import post from "./collections/post";
+import project from "./collections/project";
 
 export const config = defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "local",
@@ -26,7 +27,7 @@ export const config = defineConfig({
     outputFolder: "admin", // within the public folder
   },
   schema: {
-    collections: [page, post],
+    collections: [page, post, project],
   },
   // Use local mode for admin to avoid CORS issues
   localApi: process.env.NODE_ENV === 'development',

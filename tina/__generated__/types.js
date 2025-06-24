@@ -22,6 +22,17 @@ export const PostPartsFragmentDoc = gql`
   body
 }
     `;
+export const ProjectPartsFragmentDoc = gql`
+    fragment ProjectParts on Project {
+  __typename
+  title
+  category
+  thumbnail
+  description
+  liveLink
+  repoLink
+}
+    `;
 export const PageDocument = gql`
     query page($relativePath: String!) {
   page(relativePath: $relativePath) {
@@ -136,6 +147,63 @@ export const PostConnectionDocument = gql`
   }
 }
     ${PostPartsFragmentDoc}`;
+export const ProjectDocument = gql`
+    query project($relativePath: String!) {
+  project(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...ProjectParts
+  }
+}
+    ${ProjectPartsFragmentDoc}`;
+export const ProjectConnectionDocument = gql`
+    query projectConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ProjectFilter) {
+  projectConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...ProjectParts
+      }
+    }
+  }
+}
+    ${ProjectPartsFragmentDoc}`;
 export function getSdk(requester) {
   return {
     page(variables, options) {
@@ -149,6 +217,12 @@ export function getSdk(requester) {
     },
     postConnection(variables, options) {
       return requester(PostConnectionDocument, variables, options);
+    },
+    project(variables, options) {
+      return requester(ProjectDocument, variables, options);
+    },
+    projectConnection(variables, options) {
+      return requester(ProjectConnectionDocument, variables, options);
     }
   };
 }

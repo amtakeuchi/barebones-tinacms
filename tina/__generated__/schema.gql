@@ -58,11 +58,14 @@ type Query {
   pageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PageFilter): PageConnection!
   post(relativePath: String): Post!
   postConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostFilter): PostConnection!
+  project(relativePath: String): Project!
+  projectConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ProjectFilter): ProjectConnection!
 }
 
 input DocumentFilter {
   page: PageFilter
   post: PostFilter
+  project: ProjectFilter
 }
 
 type DocumentConnectionEdges {
@@ -88,7 +91,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Page | Post | Folder
+union DocumentNode = Page | Post | Project | Folder
 
 type Page implements Node & Document {
   body: JSON
@@ -172,6 +175,38 @@ type PostConnection implements Connection {
   edges: [PostConnectionEdges]
 }
 
+type Project implements Node & Document {
+  title: String!
+  category: String
+  thumbnail: String
+  description: JSON
+  liveLink: String
+  repoLink: String
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ProjectFilter {
+  title: StringFilter
+  category: StringFilter
+  thumbnail: ImageFilter
+  description: RichTextFilter
+  liveLink: StringFilter
+  repoLink: StringFilter
+}
+
+type ProjectConnectionEdges {
+  cursor: String!
+  node: Project
+}
+
+type ProjectConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [ProjectConnectionEdges]
+}
+
 type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String, relativePath: String!, params: DocumentUpdateMutation!): DocumentNode!
@@ -182,17 +217,21 @@ type Mutation {
   createPage(relativePath: String!, params: PageMutation!): Page!
   updatePost(relativePath: String!, params: PostMutation!): Post!
   createPost(relativePath: String!, params: PostMutation!): Post!
+  updateProject(relativePath: String!, params: ProjectMutation!): Project!
+  createProject(relativePath: String!, params: ProjectMutation!): Project!
 }
 
 input DocumentUpdateMutation {
   page: PageMutation
   post: PostMutation
+  project: ProjectMutation
   relativePath: String
 }
 
 input DocumentMutation {
   page: PageMutation
   post: PostMutation
+  project: ProjectMutation
 }
 
 input PageMutation {
@@ -206,6 +245,15 @@ input PostMutation {
   author: String
   featuredImage: String
   body: JSON
+}
+
+input ProjectMutation {
+  title: String
+  category: String
+  thumbnail: String
+  description: JSON
+  liveLink: String
+  repoLink: String
 }
 
 schema {

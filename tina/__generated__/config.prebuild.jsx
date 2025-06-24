@@ -78,6 +78,53 @@ var post_default = {
   }
 };
 
+// tina/collections/project.js
+var project_default = {
+  label: "Projects",
+  name: "project",
+  path: "content/projects",
+  format: "md",
+  fields: [
+    {
+      type: "string",
+      name: "title",
+      label: "Project Title",
+      isTitle: true,
+      required: true
+    },
+    {
+      type: "string",
+      name: "category",
+      label: "Category"
+    },
+    {
+      type: "image",
+      name: "thumbnail",
+      label: "Thumbnail Image"
+    },
+    {
+      type: "rich-text",
+      name: "description",
+      label: "Description"
+    },
+    {
+      type: "string",
+      name: "liveLink",
+      label: "Live Site Link"
+    },
+    {
+      type: "string",
+      name: "repoLink",
+      label: "Repository Link"
+    }
+  ],
+  ui: {
+    router: ({ document }) => {
+      return `/projects/${document._sys.filename}`;
+    }
+  }
+};
+
 // tina/config.js
 var config = defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "local",
@@ -105,7 +152,7 @@ var config = defineConfig({
     // within the public folder
   },
   schema: {
-    collections: [page_default, post_default]
+    collections: [page_default, post_default, project_default]
   },
   // Use local mode for admin to avoid CORS issues
   localApi: true
