@@ -11,8 +11,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>My Portfolio</title>
-        <meta name="description" content="Personal portfolio and blog showcasing my work and thoughts" />
+        <title>Securi-Tee</title>
+        <meta name="description" content="Cybersecurity professional portfolio and blog showcasing threat analysis, incident response, and security projects" />
       </head>
       <body>
         <header className="header">
@@ -24,6 +24,7 @@ export default function RootLayout({
               
               <div className="nav-links">
                 <Link href="/" className="nav-link">Home</Link>
+                <Link href="/projects" className="nav-link">Projects</Link>
                 <Link href="/blog" className="nav-link">Blog</Link>
                 <Link href="/about" className="nav-link">About</Link>
               </div>
