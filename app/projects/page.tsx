@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { client } from "../../tina/__generated__/client";
 
 export default async function ProjectsPage() {
@@ -53,9 +54,11 @@ export default async function ProjectsPage() {
                 <div className="card-body">
                   {project.thumbnail && (
                     <div className="project-thumbnail">
-                      <img 
+                      <Image 
                         src={project.thumbnail} 
                         alt={project.title}
+                        width={400}
+                        height={200}
                         style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "8px" }}
                       />
                     </div>
