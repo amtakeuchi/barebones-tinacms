@@ -863,6 +863,11 @@ p {
   color: white;
   cursor: pointer;
   padding: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Mobile Menu */
@@ -900,6 +905,9 @@ p {
 .theme-toggle-wrapper button,
 .mobile-theme-toggle button {
   color: white !important;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem;
 }
 
 .theme-toggle-wrapper button:hover,
@@ -918,7 +926,7 @@ p {
   }
   
   .mobile-nav-toggle {
-    display: block;
+    display: flex;
   }
   
   .nav-links {
@@ -1017,16 +1025,24 @@ p {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: var(--primary-color);
+  background: rgba(30, 41, 59, 0.9);
   color: white;
-  padding: 8px;
+  padding: 8px 16px;
   text-decoration: none;
   border-radius: var(--radius-sm);
   z-index: 1000;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
 }
 
 .skip-link:focus {
   top: 6px;
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Ensure text has sufficient contrast */
@@ -1070,4 +1086,25 @@ p {
   .social-link:hover {
     transform: none;
   }
+}
+
+/* Blog Post Page Styling */
+.blog-post-page {
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.blog-article {
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure no background imagery on blog posts */
+.blog-post-page::before,
+.blog-post-page::after,
+.blog-article::before,
+.blog-article::after {
+  display: none;
 } 

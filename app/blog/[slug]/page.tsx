@@ -22,7 +22,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!postContent) return notFound();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="max-w-4xl mx-auto px-4 py-12 blog-post-page">
       {/* Back to Blog Link */}
       <div className="mb-8">
         <Link 
@@ -37,7 +37,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
 
       {/* Article Header */}
-      <article className="prose prose-lg max-w-none dark:prose-invert">
+      <article className="prose prose-lg max-w-none dark:prose-invert blog-article">
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
             {postContent.title}
