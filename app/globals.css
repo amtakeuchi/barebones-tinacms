@@ -1149,4 +1149,37 @@ p {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
+}
+
+/* Contact page social links */
+.social-links-contact {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.social-link-contact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.social-link-contact:hover {
+  background: var(--bg-primary);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.social-link-contact:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 } 
