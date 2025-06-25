@@ -1,6 +1,5 @@
 import { client } from "../../../tina/__generated__/client";
 import { notFound } from "next/navigation";
-import { TinaMarkdown } from "tinacms/dist/rich-text";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -70,7 +69,42 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Content */}
         <div className="prose prose-lg max-w-none dark:prose-invert">
           {postContent.body ? (
-            <TinaMarkdown content={postContent.body} />
+            <div className="blog-content">
+              {postContent.body.split('\n').map((paragraph: string, index: number) => {
+                if (paragraph.trim() === '') return <br key={index} />;
+                
+                // Handle headers
+                if (paragraph.startsWith('## ')) {
+                  return <h2 key={index} className="text-2xl font-bold mt-8 mb-4">{paragraph.replace('## ', '')}</h2>;
+                }
+                if (paragraph.startsWith('### ')) {
+                  return <h3 key={index} className="text-xl font-bold mt-6 mb-3">{paragraph.replace('### ', '')}</h3>;
+                }
+                
+                // Handle lists
+                if (paragraph.startsWith('- ')) {
+                  return <li key={index} className="ml-4">{paragraph.replace('- ', '')}</li>;
+                }
+                if (paragraph.startsWith('  - ')) {
+                  return <li key={index} className="ml-8">{paragraph.replace('  - ', '')}</li>;
+                }
+                
+                // Handle bold text
+                if (paragraph.includes('**')) {
+                  const parts = paragraph.split('**');
+                  return (
+                    <p key={index} className="mb-4">
+                      {parts.map((part, partIndex) => 
+                        partIndex % 2 === 1 ? <strong key={partIndex}>{part}</strong> : part
+                      )}
+                    </p>
+                  );
+                }
+                
+                // Regular paragraph
+                return <p key={index} className="mb-4">{paragraph}</p>;
+              })}
+            </div>
           ) : (
             <div className="text-gray-600 dark:text-gray-400 text-center py-8">
               <p>Content coming soon...</p>

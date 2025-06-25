@@ -122,9 +122,6 @@ export function MobileNav() {
           >
             Contact
           </Link>
-          <div className="mobile-theme-toggle">
-            <ThemeToggle />
-          </div>
         </nav>
       )}
     </div>
