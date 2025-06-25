@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
-import { ThemeToggle } from "./components/ThemeToggle";
 import { MobileNav } from "./components/MobileNav";
 
 export default function RootLayout({
@@ -26,17 +25,7 @@ export default function RootLayout({
                   Securi-Tee
                 </Link>
                 
-                {/* Desktop Navigation */}
-                <div className="nav-links desktop-nav">
-                  <Link href="/" className="nav-link">Home</Link>
-                  <Link href="/projects" className="nav-link">Projects</Link>
-                  <Link href="/blog" className="nav-link">Blog</Link>
-                  <Link href="/about" className="nav-link">About</Link>
-                  <Link href="/contact" className="nav-link">Contact</Link>
-                  <ThemeToggle />
-                </div>
-                
-                {/* Mobile Navigation */}
+                {/* Navigation (handles both desktop and mobile) */}
                 <MobileNav />
               </nav>
             </div>

@@ -23,6 +23,17 @@ export function MobileNav() {
 
   return (
     <div className="mobile-nav">
+      {/* Desktop Navigation */}
+      <div className="nav-links desktop-nav">
+        <Link href="/" className="nav-link">Home</Link>
+        <Link href="/projects" className="nav-link">Projects</Link>
+        <Link href="/blog" className="nav-link">Blog</Link>
+        <Link href="/about" className="nav-link">About</Link>
+        <Link href="/contact" className="nav-link">Contact</Link>
+        <ThemeToggle />
+      </div>
+
+      {/* Mobile Hamburger Button */}
       <button onClick={toggleMenu} className="mobile-nav-toggle" aria-label="Toggle navigation">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
           {isOpen ? (
@@ -33,7 +44,8 @@ export function MobileNav() {
         </svg>
       </button>
       
-      <div className={`nav-links ${isOpen ? 'active' : ''}`}>
+      {/* Mobile Navigation Menu */}
+      <div className={`nav-links mobile-menu ${isOpen ? 'active' : ''}`}>
         <Link 
           href="/" 
           className={`nav-link ${isActive('/') ? 'active' : ''}`}

@@ -107,6 +107,12 @@ p {
   background: rgba(255, 255, 255, 0.95);
 }
 
+/* Dark mode header */
+[data-theme="dark"] .header {
+  background: rgba(30, 41, 59, 0.95); /* Navy blue background */
+  border-bottom: 1px solid var(--border-color);
+}
+
 .nav {
   display: flex;
   justify-content: space-between;
@@ -686,7 +692,7 @@ p {
     display: block;
   }
   
-  .nav-links {
+  .mobile-menu {
     display: none;
     position: absolute;
     top: 100%;
@@ -700,11 +706,11 @@ p {
     box-shadow: var(--shadow-md);
   }
   
-  .nav-links.active {
+  .mobile-menu.active {
     display: flex;
   }
   
-  .nav-link {
+  .mobile-menu .nav-link {
     padding: 0.75rem 1rem;
     border-radius: var(--radius-sm);
   }

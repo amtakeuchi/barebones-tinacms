@@ -62,7 +62,18 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                     <div className="project-description">
                       {typeof project.description === 'string' 
                         ? project.description 
-                        : 'Project description available'
+                        : project.description.children?.map((child: any, index: number) => {
+                            if (child.type === 'p') {
+                              return (
+                                <p key={index} className="mb-4">
+                                  {child.children?.map((textChild: any, textIndex: number) => (
+                                    <span key={textIndex}>{textChild.text}</span>
+                                  ))}
+                                </p>
+                              );
+                            }
+                            return null;
+                          }) || 'Project description available'
                       }
                     </div>
                   )}
