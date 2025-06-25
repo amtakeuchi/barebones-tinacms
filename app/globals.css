@@ -719,9 +719,13 @@ p {
   display: none;
   background: none;
   border: none;
+  color: white;
   cursor: pointer;
   padding: 0.5rem;
-  color: var(--text-primary);
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-theme-toggle {
@@ -738,7 +742,7 @@ p {
   }
   
   .mobile-nav-toggle {
-    display: block;
+    display: flex;
   }
   
   .mobile-menu {
@@ -865,7 +869,6 @@ p {
   padding: 0.5rem;
   min-width: 44px;
   min-height: 44px;
-  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -1107,4 +1110,23 @@ p {
 .blog-article::before,
 .blog-article::after {
   display: none;
+}
+
+/* Blog post back button styling */
+.blog-post-page a[href="/blog"] {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.blog-post-page a[href="/blog"]:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.blog-post-page a[href="/blog"] svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 } 

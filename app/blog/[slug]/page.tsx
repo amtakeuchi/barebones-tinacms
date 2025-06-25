@@ -82,7 +82,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none dark:prose-invert">
-          <TinaMarkdown content={postContent.body} />
+          {postContent.body ? (
+            <TinaMarkdown content={postContent.body} />
+          ) : (
+            <div className="text-gray-600 dark:text-gray-400 text-center py-8">
+              <p>Content coming soon...</p>
+            </div>
+          )}
         </div>
       </article>
 
