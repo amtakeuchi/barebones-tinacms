@@ -7,6 +7,7 @@ type ThemeMode = 'light' | 'dark' | 'system';
 
 interface ThemeContextType {
   theme: ThemeMode;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setTheme: (newTheme: ThemeMode) => void;
   resolvedTheme: 'light' | 'dark';
 }
