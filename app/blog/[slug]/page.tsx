@@ -74,7 +74,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           ) : (
             <div className="text-gray-600 dark:text-gray-400 text-center py-8">
               <p>Content coming soon...</p>
-              <p className="text-sm mt-2">Debug: Body content is {postContent.body ? 'present' : 'missing'}</p>
             </div>
           )}
         </div>
@@ -93,7 +92,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             Back to Blog
           </Link>
           
-          {postContent.author && (
+          {postContent.author && postContent.author !== 'Adam' && (
             <div className="text-sm text-gray-500 dark:text-gray-400">
               Written by {postContent.author}
             </div>

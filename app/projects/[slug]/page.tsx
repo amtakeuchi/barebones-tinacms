@@ -1,15 +1,20 @@
+'use client';
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { client } from "../../../tina/__generated__/client";
 import { notFound } from "next/navigation";
 
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
+  const [isImageFullscreen, setIsImageFullscreen] = useState(false);
+  const slug = params.slug;
   let project: any = null;
   let error = null;
 
   try {
     const result = await client.queries.project({
-      relativePath: `${params.slug}.md`,
+      relativePath: `${slug}.md`,
     });
     project = result.data.project;
   } catch (err: any) {
@@ -20,6 +25,10 @@ export default async function ProjectPage({ params }: { params: { slug: string }
   if (!project || error) {
     notFound();
   }
+
+  const toggleFullscreen = () => {
+    setIsImageFullscreen(!isImageFullscreen);
+  };
 
   return (
     <div>
@@ -49,6 +58,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 height={600}
                 style={{ width: "100%", height: "auto", borderRadius: "12px" }}
                 className="project-image-clickable"
+                onClick={toggleFullscreen}
               />
             </div>
           )}
@@ -114,6 +124,24 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           </Link>
         </div>
       </section>
+
+      {/* Fullscreen Image Modal */}
+      {isImageFullscreen && project.thumbnail && (
+        <div className="fullscreen-modal" onClick={toggleFullscreen}>
+          <div className="fullscreen-content">
+            <button className="fullscreen-close" onClick={toggleFullscreen}>
+              ×
+            </button>
+            <Image 
+              src={project.thumbnail} 
+              alt={project.title}
+              fill
+              className="fullscreen-image"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
