@@ -7,7 +7,7 @@ type ThemeMode = 'light' | 'dark' | 'system';
 
 interface ThemeContextType {
   theme: ThemeMode;
-  setTheme: (theme: ThemeMode) => void;
+  setTheme: (newTheme: ThemeMode) => void;
   resolvedTheme: 'light' | 'dark';
 }
 
