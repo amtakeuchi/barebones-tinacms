@@ -22,101 +22,96 @@ export default async function BlogPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
+    <div>
       {/* Header Section */}
-      <section className="mb-12">
-        <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Blog</h1>
-        <p className="text-lg text-gray-700 dark:text-gray-300">
-          Thoughts, tutorials, and insights from my journey in cybersecurity and IT. 
-          From threat hunting to cloud security, I share what I learn along the way.
-        </p>
+      <section className="hero">
+        <div className="container">
+          <h1>Blog</h1>
+          <p>
+            Thoughts, tutorials, and insights from my journey in cybersecurity and IT. 
+            From threat hunting to cloud security, I share what I learn along the way.
+          </p>
+        </div>
       </section>
       
       {/* Blog Posts Grid */}
-      {posts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => {
-            if (!post) return null;
-            return (
-              <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
-                {post.featuredImage && (
-                  <div className="aspect-video bg-gray-200 dark:bg-gray-700 relative">
-                    <Image 
-                      src={post.featuredImage} 
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <div className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-                    <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                      })}
-                    </time>
-                    {post.author && (
-                      <>
-                        <span className="mx-2">•</span>
-                        <span>{post.author}</span>
-                      </>
-                    )}
-                  </div>
-                  <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white line-clamp-2">
-                    <Link 
-                      href={`/blog/${post._sys.filename}`}
-                      className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      {post.title}
-                    </Link>
-                  </h2>
-                  {post.excerpt && (
-                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  )}
+      <section className="section">
+        <div className="container">
+          {posts.length > 0 ? (
+            <div className="projects-grid">
+              {posts.map((post) => {
+                if (!post) return null;
+                return (
                   <Link 
+                    key={post.id} 
                     href={`/blog/${post._sys.filename}`}
-                    className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors"
+                    className="card project-card"
                   >
-                    Read more
-                    <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    <div className="card-body">
+                      {post.featuredImage && (
+                        <div className="project-thumbnail">
+                          <Image 
+                            src={post.featuredImage} 
+                            alt={post.title}
+                            width={400}
+                            height={200}
+                            style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "8px" }}
+                          />
+                        </div>
+                      )}
+                      <div className="blog-meta">
+                        <time dateTime={post.date}>
+                          {new Date(post.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                          })}
+                        </time>
+                        {post.author && (
+                          <>
+                            <span>•</span>
+                            <span>{post.author}</span>
+                          </>
+                        )}
+                      </div>
+                      <h3 className="project-title">{post.title}</h3>
+                      {post.excerpt && (
+                        <div className="project-description line-clamp-3">
+                          {post.excerpt}
+                        </div>
+                      )}
+                      <div className="project-links">
+                        <span className="btn btn-primary btn-sm">
+                          Read More
+                        </span>
+                      </div>
+                    </div>
                   </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="card text-center">
+              <div className="card-body">
+                <h2>No blog posts yet</h2>
+                <p>
+                  I&apos;m working on some great content about cybersecurity, threat hunting, and IT insights. 
+                  Check back soon for my first post!
+                </p>
+                <div className="mt-4">
+                  <h3>Coming soon:</h3>
+                  <ul className="text-left">
+                    <li>• Threat hunting techniques and tools</li>
+                    <li>• Cloud security best practices</li>
+                    <li>• SOC analyst insights and tips</li>
+                    <li>• Career advice for cybersecurity professionals</li>
+                  </ul>
                 </div>
-              </article>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <div className="max-w-md mx-auto">
-            <div className="mb-6">
-              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+              </div>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No blog posts yet</h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-6">
-              I&apos;m working on some great content about cybersecurity, threat hunting, and IT insights. 
-              Check back soon for my first post!
-            </p>
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-              <h4 className="font-medium text-gray-900 dark:text-white mb-2">Coming soon:</h4>
-              <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
-                <li>• Threat hunting techniques and tools</li>
-                <li>• Cloud security best practices</li>
-                <li>• SOC analyst insights and tips</li>
-                <li>• Career advice for cybersecurity professionals</li>
-              </ul>
-            </div>
-          </div>
+          )}
         </div>
-      )}
+      </section>
     </div>
   );
 } 

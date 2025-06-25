@@ -50,7 +50,11 @@ export default async function ProjectsPage() {
         ) : (
           <div className="projects-grid">
             {projects.map((project: any) => (
-              <div key={project.id} className="card project-card">
+              <Link 
+                key={project.id} 
+                href={`/projects/${project._sys.filename}`}
+                className="card project-card"
+              >
                 <div className="card-body">
                   {project.thumbnail && (
                     <div className="project-thumbnail">
@@ -68,7 +72,7 @@ export default async function ProjectsPage() {
                     <span className="project-category">{project.category}</span>
                   )}
                   {project.description && (
-                    <div className="project-description">
+                    <div className="project-description line-clamp-3">
                       {typeof project.description === 'string' 
                         ? project.description 
                         : 'Project description available'
@@ -76,29 +80,12 @@ export default async function ProjectsPage() {
                     </div>
                   )}
                   <div className="project-links">
-                    {project.liveLink && (
-                      <a 
-                        href={project.liveLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-primary btn-sm"
-                      >
-                        Live Demo
-                      </a>
-                    )}
-                    {project.repoLink && (
-                      <a 
-                        href={project.repoLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-ghost btn-sm"
-                      >
-                        View Code
-                      </a>
-                    )}
+                    <span className="btn btn-primary btn-sm">
+                      View Details
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
@@ -113,7 +100,7 @@ export default async function ProjectsPage() {
               Interested in collaborating on a cybersecurity project or discussing security challenges? 
               I&apos;m always open to new opportunities and interesting problems to solve.
             </p>
-            <Link href="/about" className="btn btn-primary">
+            <Link href="/contact" className="btn btn-primary">
               Let&apos;s Connect
             </Link>
           </div>
