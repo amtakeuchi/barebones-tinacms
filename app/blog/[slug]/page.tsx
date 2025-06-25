@@ -58,12 +58,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Featured Image */}
         {postContent.featuredImage && (
           <div className="mb-8 text-center">
-            <div className="relative w-full max-w-4xl mx-auto h-80 md:h-96">
+            <div className="relative w-full max-w-4xl mx-auto">
               <Image 
                 src={postContent.featuredImage} 
                 alt={postContent.title} 
-                fill
-                className="object-cover rounded-lg shadow-lg"
+                width={1200}
+                height={600}
+                className="w-full h-auto rounded-lg shadow-lg"
               />
             </div>
           </div>
@@ -71,6 +72,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none dark:prose-invert">
+          {/* Debug info - always show */}
+          <div className="mb-8 p-4 bg-yellow-100 dark:bg-yellow-900 rounded text-sm border border-yellow-300">
+            <p><strong>Debug Info:</strong></p>
+            <p>Post title: {postContent.title}</p>
+            <p>Post excerpt: {postContent.excerpt}</p>
+            <p>Body exists: {postContent.body ? 'Yes' : 'No'}</p>
+            <p>Body type: {typeof postContent.body}</p>
+            {postContent.body && (
+              <>
+                <p>Body keys: {Object.keys(postContent.body)}</p>
+                <p>Body value: {JSON.stringify(postContent.body, null, 2)}</p>
+              </>
+            )}
+          </div>
+
           {postContent.body ? (
             <>
               {typeof postContent.body === 'string' ? (
@@ -80,13 +96,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               ) : (
                 <TinaMarkdown content={postContent.body} />
               )}
-              {/* Debug info */}
-              <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded text-sm">
-                <p><strong>Debug Info:</strong></p>
-                <p>Body type: {typeof postContent.body}</p>
-                <p>Body keys: {postContent.body ? Object.keys(postContent.body) : 'null'}</p>
-                <p>Body value: {JSON.stringify(postContent.body, null, 2)}</p>
-              </div>
             </>
           ) : (
             <div className="text-gray-600 dark:text-gray-400 text-center py-8">
