@@ -23,19 +23,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 blog-post-page">
-      {/* Back to Blog Link */}
-      <div className="mb-8">
-        <Link 
-          href="/blog"
-          className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors"
-        >
-          <svg className="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Blog
-        </Link>
-      </div>
-
       {/* Article Header */}
       <article className="prose prose-lg max-w-none dark:prose-invert blog-article">
         <header className="mb-8">
@@ -69,7 +56,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Featured Image */}
         {postContent.featuredImage && (
           <div className="mb-8 text-center">
-            <div className="relative w-full max-w-2xl mx-auto h-64 md:h-80">
+            <div className="relative w-full max-w-3xl mx-auto h-80 md:h-96">
               <Image 
                 src={postContent.featuredImage} 
                 alt={postContent.title} 
@@ -105,9 +92,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             Back to Blog
           </Link>
           
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            Written by {postContent.author || 'Adam'}
-          </div>
+          {postContent.author && (
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Written by {postContent.author}
+            </div>
+          )}
         </div>
       </footer>
     </div>

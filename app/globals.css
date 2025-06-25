@@ -846,6 +846,7 @@ p {
 .mobile-nav {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .nav-links {
@@ -857,6 +858,8 @@ p {
 /* Desktop Navigation */
 .desktop-nav {
   display: flex;
+  width: 100%;
+  justify-content: flex-end;
 }
 
 /* Mobile Navigation Toggle */
@@ -885,6 +888,7 @@ p {
   padding: 1rem;
   gap: 1rem;
   border-top: 1px solid var(--border-color);
+  z-index: 1000;
 }
 
 .mobile-menu.active {
@@ -925,11 +929,11 @@ p {
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .desktop-nav {
-    display: none;
+    display: none !important;
   }
   
   .mobile-nav-toggle {
-    display: flex;
+    display: flex !important;
   }
   
   .nav-links {
