@@ -56,7 +56,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Featured Image */}
         {postContent.featuredImage && (
           <div className="mb-8 text-center">
-            <div className="relative w-full max-w-3xl mx-auto h-80 md:h-96">
+            <div className="relative w-full max-w-4xl mx-auto h-80 md:h-96">
               <Image 
                 src={postContent.featuredImage} 
                 alt={postContent.title} 
