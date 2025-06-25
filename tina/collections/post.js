@@ -40,10 +40,12 @@ export default {
       name: "featuredImage",
     },
     {
-      type: "rich-text",
+      type: "string",
       label: "Blog Post Body",
       name: "body",
-      isBody: true,
+      ui: {
+        component: "textarea",
+      },
     },
   ],
   ui: {
