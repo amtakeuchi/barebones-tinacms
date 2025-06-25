@@ -39,67 +39,66 @@ export default async function ProjectPage({ params }: { params: { slug: string }
       {/* Project Content */}
       <section className="section">
         <div className="container">
-          <div className="grid grid-2">
-            {/* Project Image */}
-            {project.thumbnail && (
-              <div className="project-image">
-                <Image 
-                  src={project.thumbnail} 
-                  alt={project.title}
-                  width={600}
-                  height={400}
-                  style={{ width: "100%", height: "auto", borderRadius: "12px" }}
-                />
-              </div>
-            )}
+          {/* Project Image - Full Width */}
+          {project.thumbnail && (
+            <div className="project-hero-image mb-6">
+              <Image 
+                src={project.thumbnail} 
+                alt={project.title}
+                width={1200}
+                height={600}
+                style={{ width: "100%", height: "auto", borderRadius: "12px" }}
+                className="project-image-clickable"
+              />
+            </div>
+          )}
 
-            {/* Project Details */}
-            <div className="project-content">
-              <div className="card">
-                <div className="card-body">
-                  <h2>Project Overview</h2>
-                  {project.description && (
-                    <div className="project-description">
-                      {typeof project.description === 'string' 
-                        ? project.description 
-                        : project.description.children?.map((child: any, index: number) => {
-                            if (child.type === 'p') {
-                              return (
-                                <p key={index} className="mb-4">
-                                  {child.children?.map((textChild: any, textIndex: number) => (
-                                    <span key={textIndex}>{textChild.text}</span>
-                                  ))}
-                                </p>
-                              );
-                            }
-                            return null;
-                          }) || 'Project description available'
-                      }
-                    </div>
-                  )}
-                  
-                  <div className="project-links">
-                    {project.liveLink && (
-                      <a 
-                        href={project.liveLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-primary"
-                      >
-                        View Live Demo
-                      </a>
-                    )}
-                    {project.repoLink && (
-                      <a 
-                        href={project.repoLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-secondary"
-                      >
-                        View Source Code
-                      </a>
-                    )}
+          {/* Project Details - Full Width */}
+          <div className="project-content">
+            <div className="card">
+              <div className="card-body">
+                <h2>Project Overview</h2>
+                {project.description && (
+                  <div className="project-description">
+                    {typeof project.description === 'string' 
+                      ? project.description 
+                      : project.description.children?.map((child: any, index: number) => {
+                          if (child.type === 'p') {
+                            return (
+                              <p key={index} className="mb-4">
+                                {child.children?.map((textChild: any, textIndex: number) => (
+                                  <span key={textIndex}>{textChild.text}</span>
+                                ))}
+                              </p>
+                            );
+                          }
+                          return null;
+                        }) || 'Project description available'
+                    }
                   </div>
+                )}
+                
+                <div className="project-links">
+                  {project.liveLink && (
+                    <a 
+                      href={project.liveLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn btn-primary"
+                    >
+                      View Live Demo
+                    </a>
+                  )}
+                  {project.repoLink && (
+                    <a 
+                      href={project.repoLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary"
+                    >
+                      View Source Code
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

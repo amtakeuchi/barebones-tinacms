@@ -98,19 +98,12 @@ p {
 
 /* Header */
 .header {
-  background: var(--bg-primary);
+  background: rgba(30, 41, 59, 0.95); /* Navy blue background always */
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-/* Dark mode header */
-[data-theme="dark"] .header {
-  background: rgba(30, 41, 59, 0.95); /* Navy blue background */
-  border-bottom: 1px solid var(--border-color);
 }
 
 .nav {
@@ -123,12 +116,12 @@ p {
 .nav-brand {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: white; /* Always white */
   transition: var(--transition);
 }
 
 .nav-brand:hover {
-  color: var(--primary-dark);
+  color: #e2e8f0; /* Light gray on hover */
 }
 
 .nav-links {
@@ -138,7 +131,7 @@ p {
 }
 
 .nav-link {
-  color: var(--text-primary);
+  color: white; /* Always white */
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-sm);
@@ -147,13 +140,13 @@ p {
 }
 
 .nav-link:hover {
-  color: var(--primary-color);
-  background: var(--bg-secondary);
+  color: #e2e8f0; /* Light gray on hover */
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .nav-link.active {
-  color: var(--primary-color);
-  background: var(--bg-secondary);
+  color: #e2e8f0; /* Light gray when active */
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* Buttons */
@@ -714,4 +707,77 @@ p {
     padding: 0.75rem 1rem;
     border-radius: var(--radius-sm);
   }
+}
+
+/* Project Hero Image */
+.project-hero-image {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.project-image-clickable {
+  cursor: pointer;
+  transition: var(--transition);
+  max-width: 100%;
+  box-shadow: var(--shadow-md);
+}
+
+.project-image-clickable:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Project Content */
+.project-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* About Page Styling */
+.about-section {
+  padding: 2rem 0;
+}
+
+.about-section h1 {
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.about-section h2 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.about-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.about-section p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.about-section .bg-gray-100 {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.about-section .text-gray-700 {
+  color: var(--text-secondary);
+}
+
+.about-section .text-gray-900 {
+  color: var(--text-primary);
+}
+
+.about-section ul {
+  color: var(--text-secondary);
+}
+
+.about-section li {
+  margin-bottom: 0.5rem;
 } 

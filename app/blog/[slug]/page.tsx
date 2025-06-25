@@ -68,13 +68,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Featured Image */}
         {postContent.featuredImage && (
-          <div className="mb-8 relative h-64 md:h-96">
-            <Image 
-              src={postContent.featuredImage} 
-              alt={postContent.title} 
-              fill
-              className="object-cover rounded-lg shadow-lg"
-            />
+          <div className="mb-8 text-center">
+            <div className="relative w-full max-w-2xl mx-auto h-64 md:h-80">
+              <Image 
+                src={postContent.featuredImage} 
+                alt={postContent.title} 
+                fill
+                className="object-cover rounded-lg shadow-lg"
+              />
+            </div>
           </div>
         )}
 

@@ -1,10 +1,10 @@
 export default async function AboutPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="max-w-4xl mx-auto px-4 py-12 about-section">
       {/* Introduction Section */}
       <section className="mb-12">
-        <h1 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">About Me</h1>
-        <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">
+        <h1>About Me</h1>
+        <p>
           Hey! Nice to meet you. My name is Adam, and this is my personal website. I use it to share the projects I&apos;ve been working on, 
           talk about events, trends, and issues in the cybersecurity/IT landscape, and share what&apos;s going on in my mind through blog posts.
         </p>
@@ -12,14 +12,14 @@ export default async function AboutPage() {
 
       {/* What I Do Section */}
       <section className="mb-12">
-        <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">What I Actually Do</h2>
-        <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">
+        <h2>What I Actually Do</h2>
+        <p>
           I&apos;m an IT professional who specializes in cybersecurity, particularly in the Cloud, SOC, and penetration testing fields. 
           What sets me apart? I bridge gaps. Having worked alongside (and learned from) everyone from developers to executives to janitors, 
           I understand that not all threats are virtual. The soft skills I&apos;ve honed let me translate tech into action, and action into results. 
           Because at the end of the day, cybersecurity isn&apos;t just about systems; it&apos;s about people.
         </p>
-        <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">
+        <p>
           But the thing is, I didn&apos;t start out dreaming in code. I got into this because I was curious, stubborn, and apparently enjoy 
           mild torture in the form of troubleshooting complex technical problems at 2 AM.
         </p>
@@ -27,21 +27,21 @@ export default async function AboutPage() {
 
       {/* Professional Background */}
       <section className="mb-12">
-        <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">My Professional Background</h2>
-        <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">
+        <h2>My Professional Background</h2>
+        <p>
           I hold a diploma (Associate&apos;s Degree for anyone viewing this from the US) in Cyber Defence and Cloud Administration from the 
           Manitoba Institute of Trades & Technology, where I graduated with a 3.8 GPA and a 5th place finish in the Skills Manitoba IT Competition.
         </p>
         <div className="bg-gray-100 p-4 rounded-lg mb-6">
-          <h3 className="text-xl font-semibold mb-2 text-gray-900">Certifications</h3>
-          <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <h3>Certifications</h3>
+          <ul className="list-disc list-inside space-y-2">
             <li>CompTIA Security+</li>
             <li>TryHackMe SOC Analyst Level 1</li>
             <li>Amazon Web Services Cloud Essentials</li>
             <li>Fortinet Certified Associate Cybersecurity</li>
           </ul>
         </div>
-        <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+        <p>
           My experience spans from hands-on client support and security incident response to developing web solutions that drive user engagement. 
           I&apos;ve successfully managed high-volume technical support scenarios, authored comprehensive incident response plans, assisted with 
           forensic investigations, and delivered security solutions that protect client systems while maintaining operational efficiency.
@@ -50,13 +50,13 @@ export default async function AboutPage() {
 
       {/* Skills Section */}
       <section className="mb-12">
-        <h2 className="text-3xl font-semibold mb-6 text-gray-900 dark:text-white">The Skills I&apos;ve Picked Up Along The Way</h2>
+        <h2>The Skills I&apos;ve Picked Up Along The Way</h2>
         
         <div className="grid md:grid-cols-2 gap-6">
           {/* Security Operations */}
           <div className="bg-gray-100 p-6 rounded-lg">
-            <h3 className="text-2xl font-semibold mb-4 text-gray-900">Security Operations & Analysis</h3>
-            <ul className="space-y-2 text-gray-700">
+            <h3>Security Operations & Analysis</h3>
+            <ul className="space-y-2">
               <li>• SOC analysis (Splunk, Wazuh, ELK Stack)</li>
               <li>• Incident response and forensics</li>
               <li>• Network analysis (Wireshark, Zeek)</li>
@@ -67,8 +67,8 @@ export default async function AboutPage() {
 
           {/* Infrastructure & Cloud */}
           <div className="bg-gray-100 p-6 rounded-lg">
-            <h3 className="text-2xl font-semibold mb-4 text-gray-900">Infrastructure & Cloud</h3>
-            <ul className="space-y-2 text-gray-700">
+            <h3>Infrastructure & Cloud</h3>
+            <ul className="space-y-2">
               <li>• AWS and Microsoft Azure administration</li>
               <li>• Windows Server and Active Directory</li>
               <li>• VMware vSphere and ESXi</li>
@@ -79,8 +79,8 @@ export default async function AboutPage() {
 
           {/* Development */}
           <div className="bg-gray-100 p-6 rounded-lg">
-            <h3 className="text-2xl font-semibold mb-4 text-gray-900">Development & Automation</h3>
-            <ul className="space-y-2 text-gray-700">
+            <h3>Development & Automation</h3>
+            <ul className="space-y-2">
               <li>• Python programming</li>
               <li>• Web development</li>
               <li>• Linux administration</li>
@@ -91,8 +91,8 @@ export default async function AboutPage() {
 
           {/* Soft Skills */}
           <div className="bg-gray-100 p-6 rounded-lg">
-            <h3 className="text-2xl font-semibold mb-4 text-gray-900">Professional Skills</h3>
-            <ul className="space-y-2 text-gray-700">
+            <h3>Professional Skills</h3>
+            <ul className="space-y-2">
               <li>• Project management</li>
               <li>• Technical writing</li>
               <li>• Customer service and support</li>
@@ -105,22 +105,22 @@ export default async function AboutPage() {
 
       {/* Why I Do This */}
       <section className="mb-12">
-        <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">Why I Do This</h2>
+        <h2>Why I Do This</h2>
         <div className="bg-gray-100 p-6 rounded-lg">
-          <p className="text-lg leading-relaxed mb-4 text-gray-700">
+          <p>
             Money. HAHAHA nah I&apos;m kidding, every field pays well enough if you perform better than everyone else. 
             There are a couple of real reasons why I do this:
           </p>
-          <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+          <ul className="list-disc list-inside space-y-2 mb-4">
             <li>Everyone needs it</li>
             <li>Not everyone can do it</li>
             <li>I enjoy the challenge and problem solving aspects of it</li>
           </ul>
-          <p className="text-lg leading-relaxed mb-4 text-gray-700">
+          <p>
             Every problem is different, requiring a unique solution, and there&apos;s something really satisfying about taking 
             something not so great and making it work better than before.
           </p>
-          <p className="text-lg leading-relaxed text-gray-700">
+          <p>
             I&apos;ve learned that creation isn&apos;t about flawless execution; it&apos;s about being willing to try something, holding on 
             and adapting when things inevitably go wrong, and having the resolve to see things through. It&apos;s the same as the gym, 
             it&apos;s the same as learning new skills, it&apos;s the same as romance: do your best, use the best intentions, know that 
@@ -132,12 +132,12 @@ export default async function AboutPage() {
 
       {/* What's Next */}
       <section>
-        <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">What&apos;s Next</h2>
-        <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">
+        <h2>What&apos;s Next</h2>
+        <p>
           I&apos;m always working on something new, learning something I didn&apos;t know yesterday, and am always up for the next challenge. 
           Whether building a website (like this one), securing a cloud network, or crafting a new tool to crack a system open, I&apos;m here for it.
         </p>
-        <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+        <p>
           I&apos;m eager to dive into cybersecurity and join the battle against threat actors, whether it&apos;s working with cloud environments, 
           hunting down threats in a SOC team, breaking (then fixing) systems as a pentester, or responding to incidents while under pressure. 
           If your team needs a junior professional who is hungry to learn and even hungrier to improve, let&apos;s talk. Reach out to me on the 
