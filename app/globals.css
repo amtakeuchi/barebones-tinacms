@@ -366,16 +366,56 @@ p {
 /* Footer */
 .footer {
   background: var(--bg-secondary);
-  padding: 3rem 0;
-  margin-top: 4rem;
   border-top: 1px solid var(--border-color);
-  text-align: center;
+  padding: 2rem 0;
+  margin-top: 4rem;
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--padding);
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-main p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.social-link {
+  color: var(--text-secondary);
+  transition: var(--transition);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.social-link:hover {
+  color: var(--primary-color);
+  background: var(--bg-primary);
+  transform: translateY(-2px);
+}
+
+/* Mobile responsive footer */
+@media (max-width: 768px) {
+  .footer-main {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
 }
 
 /* Projects Grid */
@@ -780,4 +820,88 @@ p {
 
 .about-section li {
   margin-bottom: 0.5rem;
+}
+
+/* Navigation Layout */
+.mobile-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Desktop Navigation */
+.desktop-nav {
+  display: flex;
+}
+
+/* Mobile Navigation Toggle */
+.mobile-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(30, 41, 59, 0.98);
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+/* Theme Toggle Styling */
+.theme-toggle-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+/* Make theme toggle white */
+.theme-toggle-wrapper button,
+.mobile-theme-toggle button {
+  color: white !important;
+}
+
+.theme-toggle-wrapper button:hover,
+.mobile-theme-toggle button:hover {
+  color: #e2e8f0 !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  
+  .mobile-nav-toggle {
+    display: block;
+  }
+  
+  .nav-links {
+    gap: 1rem;
+  }
 } 

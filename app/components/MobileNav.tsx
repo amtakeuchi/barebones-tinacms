@@ -23,14 +23,16 @@ export function MobileNav() {
 
   return (
     <div className="mobile-nav">
-      {/* Desktop Navigation */}
+      {/* Desktop Navigation - Single Line */}
       <div className="nav-links desktop-nav">
-        <Link href="/" className="nav-link">Home</Link>
-        <Link href="/about" className="nav-link">About</Link>
-        <Link href="/blog" className="nav-link">Blog</Link>
-        <Link href="/projects" className="nav-link">Projects</Link>
-        <Link href="/contact" className="nav-link">Contact</Link>
-        <ThemeToggle />
+        <Link href="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
+        <Link href="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</Link>
+        <Link href="/blog" className={`nav-link ${isActive('/blog') ? 'active' : ''}`}>Blog</Link>
+        <Link href="/projects" className={`nav-link ${isActive('/projects') ? 'active' : ''}`}>Projects</Link>
+        <Link href="/contact" className={`nav-link ${isActive('/contact') ? 'active' : ''}`}>Contact</Link>
+        <div className="theme-toggle-wrapper">
+          <ThemeToggle />
+        </div>
       </div>
 
       {/* Mobile Hamburger Button */}
