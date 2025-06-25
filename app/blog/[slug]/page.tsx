@@ -15,9 +15,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   try {
     const postResponse = await client.queries.post({ relativePath: `${slug}.mdx` });
     postContent = postResponse.data.post;
-    console.log('Blog post content:', postContent); // Debug log
   } catch (error) {
-    console.error('Error fetching blog post:', error); // Debug log
     return notFound();
   }
 
@@ -72,35 +70,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none dark:prose-invert">
-          {/* Debug info - always show */}
-          <div className="mb-8 p-4 bg-yellow-100 dark:bg-yellow-900 rounded text-sm border border-yellow-300">
-            <p><strong>Debug Info:</strong></p>
-            <p>Post title: {postContent.title}</p>
-            <p>Post excerpt: {postContent.excerpt}</p>
-            <p>Body exists: {postContent.body ? 'Yes' : 'No'}</p>
-            <p>Body type: {typeof postContent.body}</p>
-            {postContent.body && (
-              <>
-                <p>Body keys: {Object.keys(postContent.body)}</p>
-                <p>Body value: {JSON.stringify(postContent.body, null, 2)}</p>
-              </>
-            )}
-          </div>
-
           {postContent.body ? (
-            <>
-              {typeof postContent.body === 'string' ? (
-                <div className="blog-content whitespace-pre-wrap">
-                  {postContent.body}
-                </div>
-              ) : (
-                <TinaMarkdown content={postContent.body} />
-              )}
-            </>
+            <TinaMarkdown content={postContent.body} />
           ) : (
             <div className="text-gray-600 dark:text-gray-400 text-center py-8">
               <p>Content coming soon...</p>
-              <p className="text-sm mt-2">Body field is empty or null</p>
             </div>
           )}
         </div>
