@@ -1,5 +1,6 @@
 import { client } from "../../../tina/__generated__/client";
 import { notFound } from "next/navigation";
+import { TinaMarkdown } from "tinacms/dist/rich-text";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -69,9 +70,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Content */}
         <div className="prose prose-lg max-w-none dark:prose-invert">
           {postContent.body ? (
-            <div className="blog-content whitespace-pre-wrap">
-              {postContent.body}
-            </div>
+            <TinaMarkdown content={postContent.body} />
           ) : (
             <div className="text-gray-600 dark:text-gray-400 text-center py-8">
               <p>Content coming soon...</p>

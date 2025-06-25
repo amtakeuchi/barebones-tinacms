@@ -127,7 +127,7 @@ type Post implements Node & Document {
   date: String!
   author: String
   featuredImage: String
-  body: String
+  body: JSON
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -161,7 +161,7 @@ input PostFilter {
   date: DatetimeFilter
   author: StringFilter
   featuredImage: ImageFilter
-  body: StringFilter
+  body: RichTextFilter
 }
 
 type PostConnectionEdges {
@@ -244,7 +244,7 @@ input PostMutation {
   date: String
   author: String
   featuredImage: String
-  body: String
+  body: JSON
 }
 
 input ProjectMutation {

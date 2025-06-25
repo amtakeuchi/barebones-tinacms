@@ -239,7 +239,7 @@ export type Post = Node & Document & {
   date: Scalars['String']['output'];
   author?: Maybe<Scalars['String']['output']>;
   featuredImage?: Maybe<Scalars['String']['output']>;
-  body?: Maybe<Scalars['String']['output']>;
+  body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -273,7 +273,7 @@ export type PostFilter = {
   date?: InputMaybe<DatetimeFilter>;
   author?: InputMaybe<StringFilter>;
   featuredImage?: InputMaybe<ImageFilter>;
-  body?: InputMaybe<StringFilter>;
+  body?: InputMaybe<RichTextFilter>;
 };
 
 export type PostConnectionEdges = {
@@ -431,7 +431,7 @@ export type PostMutation = {
   date?: InputMaybe<Scalars['String']['input']>;
   author?: InputMaybe<Scalars['String']['input']>;
   featuredImage?: InputMaybe<Scalars['String']['input']>;
-  body?: InputMaybe<Scalars['String']['input']>;
+  body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
 export type ProjectMutation = {
@@ -445,7 +445,7 @@ export type ProjectMutation = {
 
 export type PagePartsFragment = { __typename: 'Page', body?: any | null };
 
-export type PostPartsFragment = { __typename: 'Post', title: string, excerpt?: string | null, date: string, author?: string | null, featuredImage?: string | null, body?: string | null };
+export type PostPartsFragment = { __typename: 'Post', title: string, excerpt?: string | null, date: string, author?: string | null, featuredImage?: string | null, body?: any | null };
 
 export type ProjectPartsFragment = { __typename: 'Project', title: string, category?: string | null, thumbnail?: string | null, description?: any | null, liveLink?: string | null, repoLink?: string | null };
 
@@ -473,7 +473,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, excerpt?: string | null, date: string, author?: string | null, featuredImage?: string | null, body?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, excerpt?: string | null, date: string, author?: string | null, featuredImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type PostConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -485,7 +485,7 @@ export type PostConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, excerpt?: string | null, date: string, author?: string | null, featuredImage?: string | null, body?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, excerpt?: string | null, date: string, author?: string | null, featuredImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type ProjectQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];

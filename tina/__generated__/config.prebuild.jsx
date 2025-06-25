@@ -65,12 +65,10 @@ var post_default = {
       name: "featuredImage"
     },
     {
-      type: "string",
+      type: "rich-text",
       label: "Blog Post Body",
       name: "body",
-      ui: {
-        component: "textarea"
-      }
+      isBody: true
     }
   ],
   ui: {
