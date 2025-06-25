@@ -15,7 +15,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   try {
     const postResponse = await client.queries.post({ relativePath: `${slug}.mdx` });
     postContent = postResponse.data.post;
+    console.log('Blog post content:', postContent); // Debug log
   } catch (error) {
+    console.error('Error fetching blog post:', error); // Debug log
     return notFound();
   }
 
@@ -70,10 +72,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Content */}
         <div className="prose prose-lg max-w-none dark:prose-invert">
           {postContent.body ? (
-            <TinaMarkdown content={postContent.body} />
+            <>
+              {typeof postContent.body === 'string' ? (
+                <div className="blog-content whitespace-pre-wrap">
+                  {postContent.body}
+                </div>
+              ) : (
+                <TinaMarkdown content={postContent.body} />
+              )}
+              {/* Debug info */}
+              <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded text-sm">
+                <p><strong>Debug Info:</strong></p>
+                <p>Body type: {typeof postContent.body}</p>
+                <p>Body keys: {postContent.body ? Object.keys(postContent.body) : 'null'}</p>
+                <p>Body value: {JSON.stringify(postContent.body, null, 2)}</p>
+              </div>
+            </>
           ) : (
             <div className="text-gray-600 dark:text-gray-400 text-center py-8">
               <p>Content coming soon...</p>
+              <p className="text-sm mt-2">Body field is empty or null</p>
             </div>
           )}
         </div>
