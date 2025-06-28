@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for theming */
 :root {
   --primary-color: #667eea;
   --primary-dark: #5a6fd8;
