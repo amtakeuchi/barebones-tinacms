@@ -17,8 +17,9 @@ export default async function BlogPage() {
       const dateB = new Date(b.date).getTime();
       return dateB - dateA; // Sort by date, newest first
     });
-  } catch (error) {
-    console.log("TinaCMS not available during build, showing empty blog");
+  } catch (err) {
+    // TinaCMS not available during build, showing empty blog
+    posts = [];
   }
 
   return (

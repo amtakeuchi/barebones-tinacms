@@ -11,9 +11,9 @@ export default async function ProjectsPage() {
     projects = result.data.projectConnection.edges
       ?.map(edge => edge?.node)
       .filter((project): project is any => project !== null && project !== undefined) || [];
-  } catch (err: any) {
-    error = err.message;
-    console.error("Failed to fetch projects:", err);
+  } catch (err) {
+    // Failed to fetch projects
+    projects = [];
   }
 
   return (

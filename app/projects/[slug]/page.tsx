@@ -16,7 +16,6 @@ export default async function ProjectPage({ params }: { params: { slug: string }
     project = result.data.project;
   } catch (err: any) {
     error = err.message;
-    console.error("Failed to fetch project:", err);
   }
 
   if (!project || error) {
