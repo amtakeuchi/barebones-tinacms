@@ -752,10 +752,7 @@ p {
 
 .mobile-theme-toggle {
   display: flex;
-  justify-content: center;
-  padding: 0.5rem 0;
-  border-top: 1px solid var(--border-color);
-  margin-top: 0.5rem;
+  align-items: center;
 }
 
 @media (max-width: 768px) {
@@ -926,8 +923,6 @@ p {
 .mobile-theme-toggle {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
 }
 
 /* Make theme toggle white */
@@ -936,7 +931,6 @@ p {
   color: white !important;
   min-width: 44px;
   min-height: 44px;
-  padding: 0.5rem;
 }
 
 .theme-toggle-wrapper button:hover,
@@ -1003,7 +997,6 @@ p {
   color: white !important;
   min-width: 44px;
   min-height: 44px;
-  padding: 0.5rem;
 }
 
 .theme-toggle-wrapper button:hover,
