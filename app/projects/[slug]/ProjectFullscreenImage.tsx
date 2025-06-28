@@ -22,6 +22,8 @@ export function ProjectFullscreenImage({ src, alt }: ProjectFullscreenImageProps
         alt={alt}
         width={1200}
         height={600}
+        quality={90}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
         style={{ width: "100%", height: "auto", borderRadius: "12px" }}
         className="project-image-clickable"
         onClick={toggleFullscreen}
@@ -38,6 +40,8 @@ export function ProjectFullscreenImage({ src, alt }: ProjectFullscreenImageProps
               src={src} 
               alt={alt}
               fill
+              quality={95}
+              sizes="100vw"
               className="fullscreen-image"
               onClick={(e) => e.stopPropagation()}
             />

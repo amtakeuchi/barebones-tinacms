@@ -18,7 +18,7 @@ export default async function HomePage() {
       </section>
 
       {/* About Me Preview */}
-      <section className="section">
+      <section className="section section-border about">
         <h2>About Me</h2>
         <p>
           I&apos;m a cybersecurity professional passionate about threat analysis, incident response, and offensive and defensive security. 
@@ -30,7 +30,7 @@ export default async function HomePage() {
       </section>
 
       {/* Blog Preview */}
-      <section className="section">
+      <section className="section section-border blog">
         <h2>Blog Posts</h2>
         <p>
           Here I share my inner thoughts, insights, and solutions on everything! Be it emerging cybersecurity threats, vulnerability breakdowns, SOC workflows, or real-world defensive strategies. 
@@ -42,7 +42,7 @@ export default async function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section">
+      <section className="section section-border connect">
         <div className="card text-center">
           <div className="card-body">
             <h2>Let&apos;s Connect</h2>

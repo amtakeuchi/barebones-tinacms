@@ -62,6 +62,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 alt={postContent.title} 
                 width={1200}
                 height={600}
+                quality={90}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
             </div>
