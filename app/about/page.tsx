@@ -14,7 +14,7 @@ export default async function AboutPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 about-section">
-      <div className="about-content">
+      <div className="prose prose-lg dark:prose-invert max-w-3xl mx-auto">
         {aboutContent && aboutContent.body ? (
           <TinaMarkdown content={aboutContent.body} />
         ) : (
