@@ -18,9 +18,6 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
           <header className="header">
             <div className="container">
               <nav className="nav">
