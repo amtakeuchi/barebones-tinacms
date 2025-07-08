@@ -1,7 +1,40 @@
 'use client';
 import React from "react";
+import { useState } from 'react';
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      const response = await fetch('https://formspree.io/f/xqabvkpr', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setShowThankYou(true);
+        e.currentTarget.reset();
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Sorry, there was an error sending your message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div>
       {/* Header */}
@@ -19,7 +52,13 @@ export default function ContactPage() {
           <div className="card-body">
             <h2>Send Me a Message</h2>
             
-            <form action="https://formspree.io/f/xqabvkpr" method="POST" className="contact-form">
+            {showThankYou && (
+              <div className="alert alert-success">
+                <p>✅ Thanks for reaching out! I&apos;ll get back to you as soon as I can.</p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="contact-form">
               <div className="form-group">
                 <label htmlFor="name">Your Name: *</label>
                 <input
@@ -56,8 +95,12 @@ export default function ContactPage() {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary">
-                Send
+              <button 
+                type="submit" 
+                className="btn btn-primary"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send'}
               </button>
             </form>
           </div>
