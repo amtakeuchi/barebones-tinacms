@@ -1,0 +1,78 @@
+---
+title: 'My First Hackathon: A Recap of My Experiences'
+excerpt: >-
+  I’m not a software developer—not even close. But this weekend, I found myself
+  in the middle of a 48-hour hackathon, building a mobile app from scratch. With
+  no prior experience in pose estimation or React Native, I dove headfirst into
+  a problem that turned out to be one of the most difficult challenges at the
+  event. From debugging TensorFlow to designing UI features and learning on the
+  fly, this was a crash course in showing up, asking questions, and refusing to
+  quit—even when everything broke. This post is about how I survived it, what I
+  learned, and why I’m proud I didn’t walk away.
+date: 2025-07-29T05:00:00.000Z
+featuredImage: /uploads/1747084189431.jpeg
+---
+
+This weekend turned out to be wildly different than anything I could’ve planned for myself. If you don’t know me, I’m not a software developer. I don’t pretend to be one either. I’m not someone who lives in VS Code or dreams in JavaScript. And yet, somehow, I ended up in the middle of a 48-hour hackathon, helping to build a mobile app and a website. 
+
+It started off with a few invites trickling in from friends, asking if I’d be attending and telling me that I should come. But what tipped the scale was a personal message from someone I really respect. When they asked me to come out and join, I couldn’t say no. So there I was, sitting in a car en route to a networking event the day before this hackathon was supposed to start, typing one-handed on my phone to get my name on the sign-up list before the event filled up. 
+
+###### Day 1: Diving Headfirst Into the Deep End
+
+The nerves hit me harder than expected. Not because I was walking into a room full of strangers—I’ve done that before—but because this wasn’t just a personal weekend project. Whatever we built was going to be delivered to an actual client. That’s a different level of pressure. I always want to do a good job in anything I do, but it hits differently when someone else is counting on what you’re supposed to deliver. 
+
+After I stepped into the event, I met two people who seemed to be on the same kind of experience level as me, so we formed a team. There were two things to work on: a website and a mobile app. We decided to go for the mobile app—and, in a panic to ensure we picked something to work on before others took it, we grabbed the first task that was listed on the board without even checking the difficulty. 
+
+Yeah… mistake. 
+
+Turns out the thing we chose was rated 5/5 in difficulty—and truthfully, it shouldn’t have even been listed for open assignment. The mentors at the event were originally meant to work on it because it required so much background knowledge and experience. But did we give up? Nah. We’re not quitters. Let’s try this.
+
+The task? Implement live motion-based feedback for training sessions, similar to Just Dance, using camera input and pose estimation. This would be used to analyze videos of users doing athletic drills, compare them against reference videos, and then grade their form. 
+
+Sounds cool, right? We thought so too, until we realized that neither TensorFlow nor MediaPipe wanted to play nice with the Expo Go environment we were using. 
+
+TensorFlow flat-out wouldn’t run, and MediaPipe wasn’t compatible. Not a great start at all. Now, at this point, we had gotten another team member, and he was much more skilled than the rest of us were. We all decided to try and rack our brains, think up some solutions, and see if they were plausible to do or not. After talking with another team that had been assigned to do work on an AI for the app, we came up with the idea to try and make something that used MediaPipe integrate it somehow into the Expo Go environment. And with that, it was five hours after the event started, late at night, and time to go home. 
+
+###### Day 2: Chipping Away at the Issue
+
+The next morning, I showed up expecting to find a buzzing room of tired-but-determined developers. Instead, I was alone. My teammates were nowhere in sight, and the space was eerily quiet compared to the day before.
+
+Still, I had promised I’d show up and give it my all, so I grabbed my laptop, popped in my earbuds, and started to work. First task: see if I could find any way to brute-force TensorFlow into working with Expo Go. A few deep dives into GitHub issues and Stack Overflow threads later, I came to the conclusion that this wasn’t going to happen. Expo Go just didn’t support the modules we needed.
+
+Back to square one.
+
+
+Some of the more experienced folks at the event mentioned maybe scrapping the React Native/Expo Go setup altogether and pivoting to a Unity engine that had already been built. That wasn’t something I had access to, or even knew how to contribute to, so I started down another path: building a version of the React Native app without Expo Go, so we could integrate MediaPipe. Did I know how to go about this? No clue. First step when you don’t know what to do? Figure out what you need to start solving the issue. That meant Google, ChatGPT, and a whole deep dive into Reddit for finding others that had tried/achieved what I was trying in the past. 
+
+By this point, I had left the event. I went home to have dinner with my family, decompress a bit, and clean myself up from a long day of work. A few hours later, I was back at my desk typing away on code. 
+
+After a lot of trial and error, I managed to create a working scaffold. I even got it to the point where a QR code could launch the app from a separate webpage or guide the user to download it. I couldn’t fully test it since I’m on iOS, and the build was Android-specific, but I was proud of the progress. Around midnight, I called it a night.
+
+###### Day 3: Reverse Engineering a Solution and Being a Good Teammate
+
+Back again at the location for the final day, and showing up at around 10 am was rough. I didn’t feel great (probably from fatigue), but I committed to this and wanted to see it through. 
+
+As I got settled in and spoke to the leading members of the project, one of my teammates showed up. He and I got to talking about the issues we were still facing, and he had something interesting to say. He had found some code on a Medium post that looked like it addressed all of the problems we were facing. Great! Progress! The issue? It was from 5 years ago… who knows how many updates had happened since then. So we set about trying to get it to run for our needs. After a couple of hours, we got it to run—and for the first time, we had pose points being tracked and overlaid on a video. That moment felt like we had cracked the code.
+
+From there, we wanted to visualize the comparisons. X, Y, Z coordinates. 3D scaling. Then came the question: how do we score a person’s form compared to the reference? Different video lengths, offset movements, varying starting points… it was messy.
+
+Now, how were we going to score this? Videos aren’t necessarily the same length and sometimes the action starts at different points in each video. Our solution: use Dynamic Time Warping to align the sequences regardless of timing, and measure similarity using cosine similarity and Euclidean distance. We were close.
+
+Then, the cavalry arrived. A few people who were well-versed in motion tracking and math-heavy algorithm stuff joined us and locked in on refining that part. Not wanting to get in the way — too many cooks, you know — I asked around to find where else I could help.
+
+That’s how I ended up working on the Daily Training UI, the section of the app that shows a user what drills or exercises they should do each day, along with the difficulty. Not flashy, but critical.
+
+And here's where I have to give a shout-out: Cursor was a lifesaver. I understand how to work with code conceptually, but I’m not fast. If I had to Google every syntax quirk, every variable structure, I’d still be on day one. With Cursor, I could test ideas, troubleshoot bugs, and bounce prompts back and forth with ChatGPT and Claude to solve issues as they came up.
+
+That tag-team between tools and persistence? That’s what got me across the finish line. I completed that page, and committed the pull request for approval. 
+
+###### Final Thoughts
+
+Did I or any of my teammates win the hackathon? No, and no idea. That wasn’t the point.
+
+For me, this weekend was about proving to myself that I could do something like this, even without being specialized in it or being the most technical person in the room. I learned a whole lot, I made myself proud, and the experience allowed me to meet more brilliant people with different skills than myself. I built something, I helped to solve problems, and I made a team stronger by showing up. 
+
+This wasn’t about being perfect or winning anything. This was about trying. 
+
+And dammit did I ever try. 
+
