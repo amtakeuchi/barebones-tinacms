@@ -1,0 +1,48 @@
+---
+title: False Positive or Red Flag? My First Week Security Scare
+excerpt: >-
+  I showed up on Wednesday, expecting a meeting with IT in order to get my
+  account and be set up to do some work. I was told that I'd be helping with
+  some documentation related to governance and overall regulation within the
+  company. I showed up to an already set up device, no IT in sight to talk with,
+  some admin privileges that I definitely shouldn't have had, an insane
+  deadline, and a mountain of work to do... This is where my curiosity set in. I
+  started poking around in the network, and I found some… well, not-great
+  things.
+date: 2025-08-17T05:00:00.000Z
+featuredImage: /uploads/Gemini_Generated_Image_bw5ed2bw5ed2bw5e.png
+---
+
+I don’t even know where to begin with this one.
+
+So, about 2 weeks ago, I ended up having a meeting over lunch that threw me into what has been a pretty hectic week. 
+
+Nothing too major at the beginning, at least from the sounds of it. It was supposed to be a pretty chill role, temporary, and would potentially open the door to me doing more for other companies as a freelancer/contractor. 
+
+But as everyone knows, what is discussed and what ends up being reality are sometimes worlds apart… This happened to be one of those occasions. 
+
+
+I showed up on Wednesday, expecting a meeting with IT in order to get my account and be set up to do some work. I was told that I’d be helping with some documentation related to governance and overall regulation within the company. I showed up to an already set up device, no IT in sight to talk with, some admin privileges that I definitely shouldn’t have had, an insane deadline, and a mountain of work to do. 
+
+
+I know what some of you are thinking as you read this: tell me that you told them immediately. No, I didn’t, because this was Wednesday morning, they had a Friday deadline that they wanted to meet, and there were about 30 or so documents that had been requested by another party they were trying to strike a deal with. These documents didn’t exist. The company didn’t have them in any regard. So I decided to prioritize: I was brought in for the documents, so tackle the documents first. 
+
+From Wednesday to Friday I toiled, trying my hardest to make that Friday deadline a reality. I spent all my time in office working on them, and a good chunk of time outside of work hours trying to complete all the needed materials. By around mid-day Friday, all of the documents were done, and I was just left to format the remaining few, change a couple items in other documents, place them all into folders to make matching documentation to questions easy, create a README file for any visitors to see what was left to do or to get a needed explanation, and then send everything to be reviewed. By 3 PM, everything had been sent off: I was left with a chunk of time where I was doing absolutely nothing. 
+
+This is where my curiosity set in. 
+
+
+I started poking around in the network, and I found some… well, not-great things. Firstly, I had been given admin access. Slight mishap, maybe, but sketchy considering I didn’t need a password for it. After some digging, I found that I had SeDebugPrivilege and SeImpersonatePrivilege enabled on my account… two things that should normally be disabled, as they could allow threat actors to do catastrophic damage (SeDebug allows a debugger to be attached to any process and allows code execution and credential theft, while SeImpersonate allows a user to impersonate other users/systems and escalate privilege to take over a device). And that was just the beginning.
+
+There was a log-on to the network near midnight. Several service accounts had Domain Admin rights. There were 7 enterprise admins (found simply by running net group “Enterprise Admins” /domain. I started sweating at this point, as these aren’t exactly great things to see… especially log-ons in the middle of the night. I thought maybe there was some scheduled work for the account that was used… After asking around, the answer was no. I escalated this to the owner of the company, albeit more panicked than I should have been (working that much on documentation definitely frayed my nerves a bit). After speaking with him, I talked with my superior about it, took her suggestions, and then called the owner back. He suggested I speak with their IT team lead, and after getting a contact number, I was on the phone immediately. 
+
+
+I broke down to him what I had seen while poking around, mentioned what could happen from it, and asked if this kind of thing was normal. He said there was nothing off about the admin accounts and that the night log-ons were just his guys doing work. He did, however, say that I shouldn’t have been given the admin access that I had and that he would look into disabling all of the Se privileges I had mentioned. He assured me that the rest of my findings didn’t matter, that all was fine, and after that we ended the call. 
+
+I texted the owner about what had occurred between myself and the IT team lead, I created an email to send to both the owner and my superior to cover myself and leave a paper trail of evidence in case something happened in the future, and then I sat there… suddenly exhausted. 
+
+Part of me felt like a total fraud and an idiot for reacting so strongly to a false positive that I had mistaken. Part of me felt relieved that it wasn’t anything serious. And the rest of me was somewhere in the middle, a mix of proud for having done the right thing by escalating, tired from how much the whole experience affected me, and confused at how things were being run. But that’s not my job right now; I’m supposed to help with documentation, provide suggestions for their business cybersecurity, and look at any vulnerabilities, questionable practices, and misconfigurations to put together in a document and present to the owner. 
+
+Regardless, the world keeps spinning, and I went home to write all about this. If you’re reading this and you are someone just starting out in cybersecurity, never, and I mean never, avoid reporting something that you think is suspicious. The boy who cried wolf is a real thing, so don’t abuse the privilege you have, but know that a reported false positive is miles better than an unreported true positive or a false negative. Trust your gut and what you see; you are the expert, and you are responsible for making sure the people trusting in you don’t get burned. 
+
+
