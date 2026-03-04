@@ -5,4 +5,94 @@ date: 2026-03-03T06:00:00.000Z
 featuredImage: /uploads/soc-detection-lab-thumbnail.png
 ---
 
-This is a test paragraph. Nothing fancy.
+***
+
+If you're someone who has been looking for a role in cybersecurity, chances are you've seen plenty of postings for entry-level roles that are asking for experience in various things. You need experience to get the job, but you need a job to get experience… how are you supposed to get around that contradiction? Well, this is one such example of how I went and got myself some hands-on learning with a product to show for it.
+
+I wanted to deepen my SOC knowledge and prove that I had the chops to build detection engineering skills, as well as show my ability to learn some more complex concepts.
+
+## The Tech Stack
+
+This lab used a combination of ELK as the SIEM solution, Tines for the SOAR solution, and Atomic Red Team for attack simulation.
+
+I chose the ELK stack over Splunk because ELK is free, widely used, and has transferable skills, making it ideal as a solution for businesses without a massive budget to dedicate towards cybersecurity. Tines was selected because it's a modern, cloud-based solution that pops up often in job postings and runs a lot easier on fixed resources. Finally, Atomic Red Team was used because it's MITRE ATT\&CK mapped and an industry standard for attack simulation.
+
+Of course, this took a lot of deliberation. ELK got picked because Splunk's registration system never sent me an activation email for a free trial of Splunk Enterprise. Not once, even after waiting over 24 hours. At some point I had to make a call, so I moved on from it and crossed it off as an option. Wazuh was what I tried next, and I mean tried. I ran the installer, watched it hang partway through, hard-restarted the VM, tried again with a compatibility bypass flag, and it froze again. After the second crash I stared at my ceiling… then went to look at job postings and saw Wazuh requested far less than ELK in job roles, so the decision was made right there: can't be spending so many resources on something that isn't even going to cooperate, pivot to ELK. Tines was used because TheHive was being beyond stubborn for me, and Shuffle ran but ate up so many of my allocated hardware resources that the VM became basically useless. As for Atomic Red Team, I decided that running attacks from inside of a compromised environment would be a situation far more common than just launching attacks on the environment from outside, as more stuff happens due to an attacker gaining access from phishing and escalating privilege than I'd wish it did.
+
+## The Architecture
+
+I went with a 3-VM (virtual machine) setup: Windows 11 Pro, Windows Server 2019, and Ubuntu. I set up an Active Directory domain for a more realistic enterprise environment. Using Sysmon and Winlogbeat as a replacement for Logstash (the L in ELK) on the Windows machines, I then set up the network to function smoothly. I was doing all of this on a single laptop while trying to be intelligent about resource use.
+
+## The Build: Where Theory Meets Reality
+
+Alright, so here's where things got interesting. Building a lab on paper versus actually getting everything to work are two wildly different experiences.
+
+#### Phase 1: Getting ELK Stack Running
+
+First up was deploying Elasticsearch and Kibana on the Ubuntu VM. Sounds straightforward, right? Download, extract, run. Except Elasticsearch refused to accept connections from my Windows machines. Every attempt from Winlogbeat got hit with "Empty reply from server." Cool. Great start.
+
+After way too much Googling and reading through config files, I found the issue: Elasticsearch was binding only to localhost (127.0.0.1) by default. Obviously my Windows VMs couldn't connect to localhost on a different machine. Changed the network.host setting to 0.0.0.0 to listen on all interfaces, restarted, and boom, all connections worked.
+
+Then hit a second wall. Elasticsearch threw cluster configuration errors about conflicting settings between single-node mode and master node configuration. The fix? Read the actual error message (crazy), find the conflicting lines, and comment the guilty one out. Lesson learned: when debugging, read the WHOLE error, not just what's visible in the pop-up window.
+
+#### Phase 2: Sysmon and Winlogbeat Configuration
+
+Got Sysmon installed on both Windows boxes using SwiftOnSecurity's config (shoutout to open-source contributors for all they do). Configured Winlogbeat to ship logs to Elasticsearch. This part actually went smooth, and first try, everything connected. Felt like I'd earned a W after the Elasticsearch headaches.
+
+The tricky part was understanding which Sysmon events actually mattered. Event ID 1 (Process Creation) was obvious. Event ID 10 (ProcessAccess) is needed for credential dumping detection. Event ID 11 (File Creation) catches malware dropping files. I went through the Sysmon docs and mapped out which events I'd actually use versus which ones were just noise.
+
+#### Phase 3: Atomic Red Team Attack Simulation
+
+Installed Atomic Red Team on the Windows 11 VM. First test: T1003.001 (credential dumping). Result? "Access denied." Windows Defender was doing its job a bit too well. Tried alternative tests, found ones that worked, and documented the ones that didn't.
+
+Worth knowing going in: about 30-40% of the Atomic Red Team tests fail out-of-the-box. Platform dependencies, missing prerequisites, Windows version differences, all kinds of reasons. And that's fine. The attempts still generate logs. Even failed attacks prove your detection rules work.
+
+Ran seven different techniques in total. Five worked perfectly. Two failed but still generated useful telemetry. That's a 70% success rate, which I'll take any day.
+
+#### Phase 4: Tines SOAR Integration
+
+This is where I hit the most frustration, honestly. Getting Tines to talk to Elasticsearch was easy, webhooks are straightforward. Getting the formulas to work? Different story.
+
+Tines uses a formula syntax where you reference previous actions using double curly braces with the action name and field path. Except when I typed it manually, nothing worked. Turns out Tines has a very particular formula picker that auto-generates the correct syntax and much prefers it to anything typed out custom (or maybe I just really need a hand, if so, message me and let's get on that). Lesson: sometimes trying to save time by doing it all ahead to just copy/paste in just results in you taking longer to come back to doing it one by one.
+
+Originally I wanted to set it up so that when the attack happened, I'd get a webhook, be notified by email about the specifics, have Tines query VirusTotal with the hash value to get insights, then stuff everything into a Google Sheets doc for easy readability. Spent probably two hours fighting with Google Sheets integration before deciding, you know what? The Tines Events Tab logs everything anyway. I don't need Google Sheets. Perfect is the enemy of good. Moved on.
+
+The workflow I ended up with: Kibana detects attack → sends webhook to Tines → Tines sends email notification → queries VirusTotal for threat intel → logs everything in the event store. Sub-60-second end-to-end automation. Brings me joy.
+
+## The Moment It All Clicked
+
+There's this moment in any project where it goes from "a bunch of stuff I'm trying to make work" to "yo, this actually works."
+
+For me, it was seeing the first detection fire in real time.
+
+I ran the mavinject.exe process injection test from Atomic Red Team. Watched the PowerShell window execute. Switched over to Kibana. Refreshed. And there it was - Event ID 1, process.name: mavinject.exe, parent process: powershell.exe. Exactly as expected. Detection latency? 28 seconds.
+
+Then the email hit my inbox. Subject: "SOC Alert: Process Injection Detected." Body had the full context - MITRE technique, severity, hostname, process details, timestamp. All automated. I didn't do anything except run the test.
+
+That's when it hit me: this isn't just a lab project anymore. This is production-quality automation. This is what SOC teams actually use. And I built it.
+
+Checked Tines to see the VirusTotal lookup completed, event logged, full audit trail captured. The entire SOAR workflow executed flawlessly without me touching anything.
+
+Felt pretty damn good, not gonna lie.
+
+## What Did I Actually Accomplish?
+
+So what did all that actually add up to?
+
+Five production-ready detection rules built from scratch, covering seven MITRE ATT\&CK techniques across three tactics. Every rule was validated against a real attack, not just written and hoped for the best. Detection time averaged under 60 seconds, with some firing in under 30. False positive rate came in under 5% after tuning, and for the tighter rules like the LSASS masquerading detection, under 1%.
+
+On the SOAR side, the workflow is built and validated — Kibana to Tines, email notification, VirusTotal enrichment, the whole chain. Full automation between Kibana and Tines is still in progress via a custom Python detection engine, but every component has been tested and the pipeline works end to end. That part of the story isn't finished yet, and I'm okay saying that out loud.
+
+But the part I actually care about is being able to walk into an interview and just show it. Not describe it. Show it. The GitHub repo, the detection rules, the SOAR workflow firing in real time. That changes the conversation pretty fast.
+
+## Final Thoughts
+
+Look, I'm not gonna pretend this was easy or that everything went smoothly. I hit walls. I spent hours troubleshooting dumb config issues. I rage-quit and came back the next day more than once.
+
+Honestly though? That's the whole point. You learn more debugging a broken Elasticsearch config at midnight than you do watching a tutorial. The troubleshooting is the experience.
+
+If you want to build something similar, my main advice is just to actually start. Pick one tool, get it running, make one thing work. The scope creep will take care of itself once you're in it. And put the whole thing on GitHub as you go, not when it's "done," because it's never done. Mine certainly isn't.
+
+Full repo is here: [github.com/amtakeuchi/soc-detection-lab](https://github.com/amtakeuchi/soc-detection-lab)
+
+Detection rules, SOAR workflows, documentation, all of it. Steal whatever's useful.
