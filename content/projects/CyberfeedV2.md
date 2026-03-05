@@ -1,5 +1,5 @@
 ---
-title: I Built a Personal Intelligence Dashboard Again...
+title: CyberfeedV2...
 category: Python Projects
 thumbnail: /uploads/cyberfeed_v2_dashboard.png
 description: |
