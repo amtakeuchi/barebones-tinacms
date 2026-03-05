@@ -95,7 +95,6 @@ description: |
 
   If you want to add your own feeds, just edit the feeds list in app.pyand the UI adapts automatically. No frontend changes needed.
 
-  Link to the repo: [CyberFeed v2 on GitHub](https://github.com/yourusername/cyberfeed-v2)
 
   If you build on it or have ideas for improvements, I'd love to hear about it. Reach out through my contact page or find me on X.
 repoLink: 'https://github.com/amtakeuchi/cyberfeed_v2'
