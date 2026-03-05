@@ -1,5 +1,5 @@
 ---
-title: I Built a Personal Intelligence Dashboard Again... Because Checking 30 News Sites a Day Was Killing My Productivity
+title: I Built a Personal Intelligence Dashboard Again...
 category: Python Projects
 thumbnail: /uploads/cyberfeed_v2_dashboard.png
 description: |
