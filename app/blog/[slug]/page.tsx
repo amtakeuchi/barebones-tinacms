@@ -52,7 +52,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   try {
     const postResponse = await client.queries.post({ relativePath: `${slug}.mdx` });
     postContent = postResponse.data.post;
-  } catch (error) {
+  } catch (_error) {
     return notFound();
   }
 

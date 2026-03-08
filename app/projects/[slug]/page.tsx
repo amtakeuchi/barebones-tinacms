@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { client } from "../../../tina/__generated__/client";
 import { notFound } from "next/navigation";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
@@ -19,6 +18,7 @@ export async function generateStaticParams() {
 
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const slug = params.slug;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let project: any = null;
   let error = null;
 
@@ -27,6 +27,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
       relativePath: `${slug}.md`,
     });
     project = result.data.project;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     error = err.message;
   }

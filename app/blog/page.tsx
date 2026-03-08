@@ -3,21 +3,23 @@ import Image from "next/image";
 import { client } from "../../tina/__generated__/client";
 
 export default async function BlogPage() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let posts: any[] = [];
-  
+
   try {
     const postsResponse = await client.queries.postConnection();
     const allPosts = (postsResponse.data.postConnection.edges ?? [])
       .filter((edge): edge is NonNullable<typeof edge> => edge !== null && edge.node !== null)
       .map((edge) => edge.node)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .filter((post) => post && post.date) as Array<{ date: string; [key: string]: any }>;
-    
+
     posts = allPosts.sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       return dateB - dateA; // Sort by date, newest first
     });
-  } catch (err) {
+  } catch (_err) {
     // TinaCMS not available during build, showing empty blog
     posts = [];
   }
