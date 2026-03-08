@@ -1,3 +1,10 @@
+---
+title: I Built a Personal Intelligence Dashboard Again... Because Checking 30 News Sites a Day Was Killing My Productivity
+category: Python Projects
+description: A local Flask web app (CyberFeed) that pulls from 30+ RSS feeds, scores articles by importance, and displays everything in a single filterable feed—replacing 45 minutes of daily news browsing with a 10-minute morning check.
+repoLink: https://github.com/amtakeuchi/cyberfeed-v2
+---
+
 # I Built a Personal Intelligence Dashboard Again... Because Checking 30 News Sites a Day Was Killing My Productivity
 
 I spend a lot of time reading the news. Cybersecurity news, tech news, finance, world events, Canadian headlines. If you work in cybersecurity (or honestly any tech field), staying current isn't optional. The threat landscape changes daily. New vulnerabilities drop. Breaches happen. Markets shift. Geopolitical events reshape the attack surface overnight. You need to know what's going on.
@@ -92,6 +99,6 @@ The full source code is on my GitHub. It's four files, three pip dependencies, a
 
 If you want to add your own feeds, just edit the feeds list in `app.py` and the UI adapts automatically. No frontend changes needed.
 
-Link to the repo: [CyberFeed v2 on GitHub](https://github.com/yourusername/cyberfeed-v2)
+Link to the repo: [CyberFeed v2 on GitHub](https://github.com/amtakeuchi/cyberfeed-v2)
 
 If you build on it or have ideas for improvements, I'd love to hear about it. Reach out through my contact page or find me on X.

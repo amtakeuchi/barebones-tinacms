@@ -179,9 +179,10 @@ type Project implements Node & Document {
   title: String!
   category: String
   thumbnail: String
-  description: JSON
+  description: String
   liveLink: String
   repoLink: String
+  body: JSON
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -191,9 +192,10 @@ input ProjectFilter {
   title: StringFilter
   category: StringFilter
   thumbnail: ImageFilter
-  description: RichTextFilter
+  description: StringFilter
   liveLink: StringFilter
   repoLink: StringFilter
+  body: RichTextFilter
 }
 
 type ProjectConnectionEdges {
@@ -251,9 +253,10 @@ input ProjectMutation {
   title: String
   category: String
   thumbnail: String
-  description: JSON
+  description: String
   liveLink: String
   repoLink: String
+  body: JSON
 }
 
 schema {

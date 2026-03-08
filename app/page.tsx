@@ -10,7 +10,7 @@ export default async function HomePage() {
           Project portfolio & personal blog. This is my digital workspace, where I document cybersecurity projects, share insights about emerging threats, 
           and explore solutions to real-world IT challenges.
         </p>
-        <div className="flex justify-center flex-wrap gap-4 mt-4">
+        <div className="btn-row mt-4">
           <Link href="/projects" className="btn btn-primary">
             See What I&apos;ve Been Working On
           </Link>
@@ -49,7 +49,7 @@ export default async function HomePage() {
             <p className="mt-2">
               Want to connect, collaborate, or chat about security challenges? I&apos;d love to hear from you.
             </p>
-            <div className="flex justify-center flex-wrap gap-4 mt-4">
+            <div className="btn-row">
               <Link href="/contact" className="btn btn-primary">
                 Contact Me
               </Link>

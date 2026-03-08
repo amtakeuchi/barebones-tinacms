@@ -31,6 +31,7 @@ export const ProjectPartsFragmentDoc = gql`
   description
   liveLink
   repoLink
+  body
 }
     `;
 export const PageDocument = gql`

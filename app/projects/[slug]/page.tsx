@@ -2,7 +2,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { client } from "../../../tina/__generated__/client";
 import { notFound } from "next/navigation";
+import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { ProjectFullscreenImage } from "./ProjectFullscreenImage";
+
+export async function generateStaticParams() {
+  try {
+    const projectsResponse = await client.queries.projectConnection();
+    const edges = projectsResponse.data.projectConnection.edges ?? [];
+    return edges
+      .filter((edge): edge is NonNullable<typeof edge> => edge?.node != null)
+      .map((edge) => ({ slug: edge.node!._sys.filename }));
+  } catch {
+    return [];
+  }
+}
 
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const slug = params.slug;
@@ -56,22 +69,11 @@ export default async function ProjectPage({ params }: { params: { slug: string }
               <div className="card-body">
                 <h2>Project Overview</h2>
                 {project.description && (
-                  <div className="project-description">
-                    {typeof project.description === 'string' 
-                      ? project.description 
-                      : project.description.children?.map((child: any, index: number) => {
-                          if (child.type === 'p') {
-                            return (
-                              <p key={index} className="mb-4">
-                                {child.children?.map((textChild: any, textIndex: number) => (
-                                  <span key={textIndex}>{textChild.text}</span>
-                                ))}
-                              </p>
-                            );
-                          }
-                          return null;
-                        }) || 'Project description available'
-                    }
+                  <p className="project-description mb-4">{project.description}</p>
+                )}
+                {project.body && (
+                  <div className="project-body prose">
+                    <TinaMarkdown content={project.body} />
                   </div>
                 )}
                 

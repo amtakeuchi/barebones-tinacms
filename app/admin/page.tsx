@@ -15,6 +15,7 @@ export default function AdminPage() {
           setIsLoading(false);
         } else {
           setError('Admin interface not found');
+          setIsLoading(false);
         }
       } catch (err) {
         setError('Failed to load admin interface');

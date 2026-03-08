@@ -5,10 +5,12 @@ import { useState, useRef } from 'react';
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitted(true);
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
@@ -62,7 +64,7 @@ export default function ContactPage() {
               </div>
             )}
 
-            <form ref={formRef} onSubmit={handleSubmit} className="contact-form">
+            <form ref={formRef} onSubmit={handleSubmit} className={`contact-form${submitted ? ' submitted' : ''}`}>
               <div className="form-group">
                 <label htmlFor="name">Your Name: *</label>
                 <input
