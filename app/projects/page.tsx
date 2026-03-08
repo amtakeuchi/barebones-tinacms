@@ -3,15 +3,17 @@ import Image from "next/image";
 import { client } from "../../tina/__generated__/client";
 
 export default async function ProjectsPage() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let projects: any[] = [];
-  let error = null;
+  const error = null;
 
   try {
     const result = await client.queries.projectConnection();
     projects = result.data.projectConnection.edges
       ?.map(edge => edge?.node)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .filter((project): project is any => project !== null && project !== undefined) || [];
-  } catch (err) {
+  } catch (_err) {
     // Failed to fetch projects
     projects = [];
   }
@@ -49,6 +51,7 @@ export default async function ProjectsPage() {
           </div>
         ) : (
           <div className="projects-grid">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {projects.map((project: any) => (
               <Link 
                 key={project.id} 

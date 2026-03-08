@@ -25,9 +25,12 @@ export default {
       label: "Thumbnail Image",
     },
     {
-      type: "rich-text",
+      type: "string",
       name: "description",
       label: "Description",
+      ui: {
+        component: "textarea",
+      },
     },
     {
       type: "string",
@@ -38,6 +41,12 @@ export default {
       type: "string",
       name: "repoLink",
       label: "Repository Link",
+    },
+    {
+      type: "rich-text",
+      name: "body",
+      label: "Body",
+      isBody: true,
     },
   ],
   ui: {

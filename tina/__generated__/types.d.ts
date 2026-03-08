@@ -294,9 +294,10 @@ export type Project = Node & Document & {
   title: Scalars['String']['output'];
   category?: Maybe<Scalars['String']['output']>;
   thumbnail?: Maybe<Scalars['String']['output']>;
-  description?: Maybe<Scalars['JSON']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
   liveLink?: Maybe<Scalars['String']['output']>;
   repoLink?: Maybe<Scalars['String']['output']>;
+  body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -306,9 +307,10 @@ export type ProjectFilter = {
   title?: InputMaybe<StringFilter>;
   category?: InputMaybe<StringFilter>;
   thumbnail?: InputMaybe<ImageFilter>;
-  description?: InputMaybe<RichTextFilter>;
+  description?: InputMaybe<StringFilter>;
   liveLink?: InputMaybe<StringFilter>;
   repoLink?: InputMaybe<StringFilter>;
+  body?: InputMaybe<RichTextFilter>;
 };
 
 export type ProjectConnectionEdges = {
@@ -438,16 +440,17 @@ export type ProjectMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
   category?: InputMaybe<Scalars['String']['input']>;
   thumbnail?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['JSON']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   liveLink?: InputMaybe<Scalars['String']['input']>;
   repoLink?: InputMaybe<Scalars['String']['input']>;
+  body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
 export type PagePartsFragment = { __typename: 'Page', body?: any | null };
 
 export type PostPartsFragment = { __typename: 'Post', title: string, excerpt?: string | null, date: string, author?: string | null, featuredImage?: string | null, body?: any | null };
 
-export type ProjectPartsFragment = { __typename: 'Project', title: string, category?: string | null, thumbnail?: string | null, description?: any | null, liveLink?: string | null, repoLink?: string | null };
+export type ProjectPartsFragment = { __typename: 'Project', title: string, category?: string | null, thumbnail?: string | null, description?: string | null, liveLink?: string | null, repoLink?: string | null, body?: any | null };
 
 export type PageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -492,7 +495,7 @@ export type ProjectQueryVariables = Exact<{
 }>;
 
 
-export type ProjectQuery = { __typename?: 'Query', project: { __typename: 'Project', id: string, title: string, category?: string | null, thumbnail?: string | null, description?: any | null, liveLink?: string | null, repoLink?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ProjectQuery = { __typename?: 'Query', project: { __typename: 'Project', id: string, title: string, category?: string | null, thumbnail?: string | null, description?: string | null, liveLink?: string | null, repoLink?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ProjectConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -504,7 +507,7 @@ export type ProjectConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ProjectConnectionQuery = { __typename?: 'Query', projectConnection: { __typename?: 'ProjectConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ProjectConnectionEdges', cursor: string, node?: { __typename: 'Project', id: string, title: string, category?: string | null, thumbnail?: string | null, description?: any | null, liveLink?: string | null, repoLink?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ProjectConnectionQuery = { __typename?: 'Query', projectConnection: { __typename?: 'ProjectConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ProjectConnectionEdges', cursor: string, node?: { __typename: 'Project', id: string, title: string, category?: string | null, thumbnail?: string | null, description?: string | null, liveLink?: string | null, repoLink?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
@@ -532,6 +535,7 @@ export const ProjectPartsFragmentDoc = gql`
   description
   liveLink
   repoLink
+  body
 }
     `;
 export const PageDocument = gql`

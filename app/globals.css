@@ -931,7 +931,10 @@ p {
 
 /* About Page Styling */
 .about-section {
-  padding: 2rem 0;
+  max-width: 56rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem 1rem;
 }
 
 .about-section h1 {
@@ -1462,9 +1465,10 @@ p {
 
 /* Blog Post Page */
 .blog-post-page {
+  max-width: 56rem;
+  margin: 0 auto;
   min-height: 100vh;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 3rem 1rem;
 }
 
 .blog-article {
@@ -1962,4 +1966,199 @@ h2, h3, h4 {
     padding: var(--space-sm);
     font-size: 0.8em;
   }
-} 
+}
+
+/* Button row — flex-centered group of buttons */
+.btn-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Blog post meta (date · author) */
+.post-meta {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.post-meta-sep {
+  margin: 0 0.5rem;
+}
+
+/* Blog post excerpt */
+.post-excerpt {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  border-left: 4px solid var(--primary-color);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Featured image wrappers */
+.post-image-outer {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.post-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 56rem;
+  margin: 0 auto;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.post-featured-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Blog post footer */
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.post-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Empty content state */
+.post-empty {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Author credit in footer */
+.post-author-credit {
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+/* Back to Blog link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--primary-dark);
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.back-link-icon {
+  margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Contact Form
+   ============================================================ */
+
+/* Suppress browser's default :invalid red border on page load */
+.contact-form input:invalid,
+.contact-form textarea:invalid {
+  box-shadow: none;
+  border-color: var(--border-color);
+}
+
+/* Only show validation error styling after a submit attempt */
+.contact-form.submitted input:invalid,
+.contact-form.submitted textarea:invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+.contact-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: var(--space-sm);
+}
+
+.contact-form label {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+}
+
+.contact-form .form-input,
+.contact-form .form-textarea {
+  width: 100%;
+  padding: 0.65rem 0.875rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.contact-form .form-input:focus,
+.contact-form .form-textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.contact-form .form-textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.alert-success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: var(--space-sm);
+}
+
+.social-links-contact {
+  display: flex;
+  gap: var(--space-sm);
+  margin: var(--space-sm) 0;
+  flex-wrap: wrap;
+}
+
+.social-link-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.social-link-contact:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(102, 126, 234, 0.05);
+}

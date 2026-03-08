@@ -21,4 +21,5 @@ fragment ProjectParts on Project {
   description
   liveLink
   repoLink
+  body
 }

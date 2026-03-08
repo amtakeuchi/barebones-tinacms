@@ -103,9 +103,12 @@ var project_default = {
       label: "Thumbnail Image"
     },
     {
-      type: "rich-text",
+      type: "string",
       name: "description",
-      label: "Description"
+      label: "Description",
+      ui: {
+        component: "textarea"
+      }
     },
     {
       type: "string",
@@ -116,6 +119,12 @@ var project_default = {
       type: "string",
       name: "repoLink",
       label: "Repository Link"
+    },
+    {
+      type: "rich-text",
+      name: "body",
+      label: "Body",
+      isBody: true
     }
   ],
   ui: {
@@ -132,7 +141,7 @@ var config = defineConfig({
   process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || // Vercel branch env
   "main",
   // fallback
-  token: process.env.NEXT_PUBLIC_TINA_TOKEN || process.env.TINA_TOKEN || "local",
+  token: process.env.TINA_TOKEN || process.env.NEXT_PUBLIC_TINA_TOKEN || "local",
   media: {
     // If you wanted cloudinary do this
     // loadCustomStore: async () => {
