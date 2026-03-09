@@ -58,13 +58,10 @@ If the Claude API key is set, filtered articles are batched (up to 20 at a time)
 
 ## Problems I Ran Into (and How I Fixed Them)
 
-The timezone crash. This was the first bug I hit when testing version 2. Some RSS feeds include timezone info in their dates (like "+0000" or "EST") and others just give you a bare date with no timezone attached. Python can't compare the two types, so the sort function threw a TypeError. The fix was simple once I understood the problem: normalize every date to UTC timezone-aware on ingestion, regardless of what the feed provides. If the feed doesn't specify a timezone, default to UTC.
-
-Dead RSS feeds. I had Reuters feeds configured that no longer exist. Reuters shut down their public RSS endpoints. The app handled it gracefully (just logged a warning and moved on), but I replaced them with working alternatives from Yahoo Finance and CNBC.
-
-The Hacker News not appearing. I had two feed URLs pointing to the same source (a direct Blogger URL and a Feedburner URL), and the deduplication logic was catching them. Consolidating to a single URL fixed it.
-
-Sequential fetching being painfully slow. The original version fetched feeds one at a time. With 30+ feeds and a 10-second timeout per feed, worst case load time was over 5 minutes. Switching to parallel fetching with a thread pool brought that down to single-digit seconds.
+* **The timezone crash.** This was the first bug I hit when testing version 2. Some RSS feeds include timezone info in their dates (like "+0000" or "EST") and others just give you a bare date with no timezone attached. Python can't compare the two types, so the sort function threw a TypeError. The fix was simple once I understood the problem: normalize every date to UTC timezone-aware on ingestion, regardless of what the feed provides. If the feed doesn't specify a timezone, default to UTC.
+* **Dead RSS feeds.** I had Reuters feeds configured that no longer exist. Reuters shut down their public RSS endpoints. The app handled it gracefully (just logged a warning and moved on), but I replaced them with working alternatives from Yahoo Finance and CNBC.
+* **The Hacker News not appearing.** I had two feed URLs pointing to the same source (a direct Blogger URL and a Feedburner URL), and the deduplication logic was catching them. Consolidating to a single URL fixed it.
+* **Sequential fetching being painfully slow.** The original version fetched feeds one at a time. With 30+ feeds and a 10-second timeout per feed, worst case load time was over 5 minutes. Switching to parallel fetching with a thread pool brought that down to single-digit seconds.
 
 ## What I'd Build Next
 
