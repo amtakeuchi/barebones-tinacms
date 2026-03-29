@@ -1,0 +1,62 @@
+---
+title: I Security-Audited My Own Portfolio Site - Here's What I Found
+excerpt: 'Everyone in tech has a portfolio site. Almost nobody audits theirs. I ran three layers of security testing on mine — manual code review, SAST with Semgrep, and DAST with OWASP ZAP — and found an exposed CMS token, an SSRF vulnerability, a CORS wildcard, an open proxy, and zero security headers. Here''s what I found, what I fixed, and why you should audit yours too.'
+date: 2026-03-28T05:00:00.000Z
+featuredImage: /uploads/Gemini_Generated_Image_o86a45o86a45o86a.png
+---
+
+"Hi my name is X, I'm X years old, and I'm a X professional! Check out my portfolio site to see what I've done!" Everyone knows this story, because a huge chunk of people in tech have a portfolio site displaying everything they've done. Heck, even people out of tech — marketing, creative fields, finance, you name it. Now here's the thing... how many of these people actually update their portfolio sites? No, not with new projects or interesting creations. I'm talking about the code. The skeleton of the site. What actually makes it up and what's vulnerable to exploitation if it's been done poorly or incorrectly.
+
+Well that thought crossed my mind as I had been building my site. "How many times a year am I gonna need to update this thing?" I thought as I was building v2, still unknowing that v3 was yet to come. And this past month, I decided that it was time to do so. Deep diving it, I went all in. I'd do three layers of testing: manual code review, SAST, and DAST.
+
+## Manual Code Review
+
+The first layer was manual code review. "But Adam, you aren't a dev, how do you know what you're looking for?" Yeah I know man, that's why you put up references on one screen so you can understand what you're looking at, and then run Claude Code on another while prompting it properly so you can slowly and steadily go through and update the thing, fixing stuff as you go after you double-check what it's supposed to be or what best practices are. People act like this stuff is super complex. It's the same as learning anything else — you look stuff up, try things, break things, and figure it out.
+
+Anyways, I went through all my files over the course of a few days, and found some unsettling stuff. I had used AI in building parts of my site, but in my sleep-deprived state while I was building, I absolutely breezed over some crucial things.
+
+First was an exposed CMS token. Very big no-no. My CMS is what I use to make content on my site — blog posts, project write-ups — and it's third-party software. Having this token exposed meant that someone could hijack my whole session, take my site over, and find out information about me. Red alert. Changed that immediately, rotated my token to a new one, and kept it pushing. Mental note made: build a checklist for next time I decide to make a project on this scale and make sure "no exposed tokens" gets thoroughly checked first.
+
+Found that I was vulnerable to SSRF (Server-Side Request Forgery) via image proxy, meaning my site's image optimization endpoint was configured to accept any URL on the internet as a source. Someone could craft a request that makes my server fetch internal resources on their behalf. Fixed it by restricting it to only the domains I actually use for images, but MAN WAS I SWEATING.
+
+Next was a CORS (Cross-Origin Resource Sharing) wildcard. My admin routes were set to allow requests from any origin, as in the whole world could access my admin routes. I don't even know how this came about, but I immediately fixed it by restricting it to only the specific domain that needs access. This was like having a gate with no fence around it; yeah it's there, but anyone could just go around it.
+
+Then, found an open proxy endpoint. An API route was forwarding requests to an external service without validating what path was being requested. Anyone could have used it to probe that service using my app's credentials. Added an allowlist so only expected OAuth paths get forwarded.
+
+And finally, missing security headers. I apparently had zero — ZERO — security headers set at the application level. No frame protection, no content type sniffing prevention, no referrer policy. I added Strict-Transport-Security, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, and Permissions-Policy to every route.
+
+Pheeeewwwwwww. What a gong-show. At least now I had room to breathe.
+
+## SAST (Static Application Security Testing)
+
+The second layer was SAST. That's just a fancy way of saying "analyzing source code while it's at rest." I used an open-source solution called Semgrep for this. It's free, runs from the command line, and scans your codebase against hundreds of security rules.
+
+Upon running it, I noticed some stuff got flagged. All of it was in CMS-generated files; code that doesn't live with me, it's part of the CMS itself. Those were false positives I could safely exclude. If you don't know, a false positive is something that looks like a problem but really isn't.
+
+After excluding the CMS files: 246 rules, 68 files scanned, zero findings on my own code. Sweet. Time to move on to phase three.
+
+## DAST (Dynamic Application Security Testing)
+
+The third layer was DAST. Similar concept to SAST, but instead of analyzing code at rest, it hammers your site while it's running. It sends thousands of requests testing for SQL injection, XSS, path traversal, and dozens of other vulnerability types, basically trying to break in the way an attacker would.
+
+Since the code was the important part, I ran my site locally and tested on that so I wouldn't take down my live site for anyone trying to visit it. I used OWASP ZAP for this; another free, open-source tool that also comes with a graphical interface for those of you who aren't big on typing commands into a terminal.
+
+ZAP worked for about 30 minutes, crawling every page on the site. Did it find stuff? Yeah, it flagged a few things. But none of it was real findings, just informational alerts and one header-related flag I already knew about and was working on fixing. Zero actual vulnerabilities.
+
+## The Lesson
+
+Security-audit your stuff. Anything out on the internet is gonna be poked with a stick by many, many randoms, and if one of those randoms spots something and has malicious intent, you may be poked with that stick yourself in a painful way.
+
+Especially if you're in cybersecurity: building a site to showcase your skills and not auditing it is like a boatbuilder selling ships with holes in them. Yeah, they might be afloat right now, but they're gonna sink sooner or later, and nobody is gonna trust someone who doesn't put out quality product.
+
+## Tools I Used
+
+Semgrep — Free, open-source SAST scanner. Install it through the command line with pip, point it at your project folder, and it runs hundreds of security rules against your code. semgrep.dev
+
+OWASP ZAP — Free, open-source DAST scanner. Download it from zaproxy.org. Requires Java. Point it at your running site and it crawls every page testing for vulnerabilities.
+
+Claude Code — Used for the manual code review. It reads your entire codebase and reports on bugs, security issues, and code quality problems before making any changes.
+
+In this age of information, the name of the game is "learn how to learn and then teach yourself the stuff you need to know." That's all from me. Thanks for reading.
+
+
