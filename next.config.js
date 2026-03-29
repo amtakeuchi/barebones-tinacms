@@ -28,11 +28,11 @@ const nextConfig = {
 
     const adminCsp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://assets.tina.io",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.tinajs.io https://app.tina.io https://assets.tina.io",
+      "connect-src 'self' https://*.tinajs.io https://app.tina.io https://assets.tina.io https://s3.us-east-1.amazonaws.com",
       "frame-src 'self' https://app.tina.io",
       "object-src 'none'",
       "base-uri 'self'",
