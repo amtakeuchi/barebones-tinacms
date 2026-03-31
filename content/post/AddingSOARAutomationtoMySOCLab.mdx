@@ -1,0 +1,58 @@
+---
+title: Adding SOAR Automation to My SOC Lab
+excerpt: 'I added SOAR automation to my SOC homelab because detection without response is just watching yourself get hacked. After TheHive refused to install and Shuffle ate all my resources, I built a Tines pipeline that fires email alerts and queries VirusTotal in under 60 seconds. Here''s what worked, what didn''t, and what''s next.'
+date: 2026-03-30T05:00:00.000Z
+featuredImage: /uploads/Gemini_Generated_Image_i1euvqi1euvqi1eu.png
+---
+
+This is part two. I built a SOC detection lab from scratch [right here](https://securi-tee.com/blog/building_a_soc_detection_lab_from_scratch), and now I'm adding SOAR automation to it. Because detection without response is just watching yourself get hacked.
+
+If you haven't read part one, quick recap: I have a 3-VM homelab. An Ubuntu VM running ELK Stack as the SIEM, a Windows Server 2019 VM as a domain controller, and a Windows 11 VM running Atomic Red Team for attack simulation. Sysmon and Winlogbeat on the Windows machines push security logs into Elasticsearch, and I built detection rules in Kibana to catch specific MITRE ATT\&CK techniques. That part works. But detecting an attack and doing nothing about it is pointless. Enter SOAR.
+
+## Tool Selection
+
+SOAR stands for Security Orchestration, Automation, and Response. The idea is simple: when an alert fires, the system automatically does something about it. Notifies the right people, enriches the alert with threat intel, logs the event, and kicks off a response workflow. No human clicking through tabs required.
+
+I had three options in mind, and the first two didn't make it.
+
+TheHive was my first pick. Open source, commonly used alongside ELK, solid reputation. Unfortunately, it refused to cooperate. Installation took multiple attempts, and when I finally got it running, all of its dependencies threw fits. Noted. Deleted. Moving on.
+
+Shuffle was next. Also open source, also commonly paired with ELK. This one looked great off the starting line. Downloaded fine, installed fine, no dependencies screaming at me. But then I ran it, and it consumed every resource I had allocated to the entire VM. My whole lab became unusable. Even with more resources provisioned, it would still be a hog and bog down everything else. Can't learn if you can't run anything. Done.
+
+Tines is what I landed on. Cloud-based SOAR platform with a free tier. No local resources needed, no dependencies to manage, just a web interface where I build automation workflows. Sold.
+
+## The Pipeline
+
+I designed a 4-step automation pipeline:
+
+Webhook trigger - Tines listens for incoming alerts via a webhook URL. When an attack is detected, a POST request hits this webhook with all the alert details (technique, severity, hostname, process info, timestamp).
+
+Email notification - Tines immediately sends me an email with the full context of the alert. Who, what, where, when.
+
+VirusTotal enrichment - Tines takes the process hash from the alert and queries VirusTotal's API to check if it's a known malicious file. This adds threat intelligence context to the alert automatically.
+
+Event logging - everything gets logged for tracking and review.
+
+On paper, clean. In reality, it made me pull my hair out.
+
+## What Went Wrong
+
+First, absolutely nothing I configured worked. Like, nothing. Tines has a very particular formula syntax where it sometimes doesn't recognize pre-typed values and requires you to hand-pick them through their formula builder. It took me about an hour of redoing all my formulas before I tried a different approach and it finally clicked.
+
+Secondly, Google Sheets decided to quit on me. Well, maybe that's not the right terminology. For that to happen, it would have needed to start working for me first. For whatever reason, no matter what I did or rigged up, Google Sheets refused to take entry of any of the data that made it through the pipeline. Everything would fire properly, I would watch the chain of green checkmarks as everything else worked smoothly, and then I'd be met with a fat red X of failure on the Google Sheets section. Every. Single. Time. I spent over 2 hours debugging this and trying to figure out what was going wrong, until I decided that wasting so much time on it wasn't worthwhile. I'd have the email chain to work off of for a record, and VirusTotal would be querying the information anyways, the spreadsheet was just another way to track and visualize everything. I may still come back to fixing this and getting it working for myself, just out of sheer spite, but as I make progress, my learning in other areas is more important than this right now. Perfect is the enemy of good.
+
+## The Moment It Worked
+
+I fired a curl command manually to simulate an attack and test the full pipeline. Webhook received the alert. Email notification sent. VirusTotal queried the hash. Event logged.
+
+I was jumping for joy at 1:47 AM, my phone glowing with the email notification that read out full context. MITRE technique, severity level, hostname, process details, timestamp. All in under 60 seconds after I sent the command. No human intervention. Fully automated from alert to notification to enrichment.
+
+This is the moment where building things like this goes from "lab project" to "this is actually what SOC teams use." And I built it.
+
+## What's Next
+
+Two things are in progress. First, I'm building a custom Python detection engine to fully automate the Kibana-to-Tines connection. Right now the webhook trigger is manual (curl command). In production, Kibana's alerting feature would fire the webhook automatically, but that's a paid feature. So I'm writing a Python script that monitors Elasticsearch for new alerts and fires the webhook to Tines when it finds one. Same result, no licensing cost.
+
+Second, I'm planning a Raspberry Pi honeypot that feeds real attack data into this same pipeline. Instead of just simulated attacks from Atomic Red Team, I'd have actual threat actors hitting an exposed endpoint, with their activity flowing through the same SIEM and SOAR workflow. Real attackers, real data, real analysis.
+
+Full repo with the SOAR workflow configuration and detection rules is[ here on GitHub](https://github.com/amtakeuchi/soc-detection-lab).
