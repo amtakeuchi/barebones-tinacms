@@ -1,0 +1,91 @@
+---
+title: 'Incident Response on a Day Off: How I Handled the Vercel Breach'
+excerpt: 'On April 19th, my alert feeds told me Vercel had been compromised. My portfolio site runs on Vercel. Four hours later I had a full triage timeline, rotated credentials, and a clean infrastructure. This is the writeup — the methodology, the decisions, and the lessons I''d want any solo operator to read before their own response to a potential exposure.'
+date: 2026-04-19T05:00:00.000Z
+featuredImage: /uploads/hacking-forum-post-2589024145.jpg
+---
+
+At some point today, a threat actor posted on BreachForums claiming to have Vercel internal data — access keys, source code, employee accounts, API tokens, NPM and GitHub tokens — with a $2M asking price. Vercel confirmed the incident. ShinyHunters' name was attached, though established members reportedly denied involvement.\
+\
+I run this portfolio site, [securi-tee.com](https://securi-tee.com), on Vercel. Here's what I did when I found out, and how I thought about it. \
+\
+**Step 1: Don't Panic. Triage First.**\
+The first question in any incident isn't "what do I do" — it's "what am I actually dealing with?"
+
+I went through what was actually connected to my Vercel account:
+
+* **Vercel **hosts the site. The build pipeline connects to GitHub. My login is GitHub OAuth — there's no Vercel password to rotate because one doesn't exist.
+* **Environment variables in Vercel:** One — \`TINA\_TOKEN\`. A read-only TinaCMS content token that controls a headless CMS on already-public blog content. If an attacker had it, they could... read my blog posts. Same as anyone with a browser.
+* **GitHub: **This is the real crown jewel. Vercel auth runs through GitHub OAuth. If GitHub is compromised, Vercel is compromised. I checked my 2FA status immediately — it was enabled, but on Microsoft Authenticator. Not ideal (more on that in a second).
+
+Blast radius assessment: Low-to-medium, pending GitHub status. The Vercel exposure itself was minimal. The GitHub exposure was the real risk, and that depended on whether GitHub credentials were in whatever was allegedly stolen.\
+
+
+Step 2: Harden the Auth Chain
+
+Whether the breach was real or overstated, the right move was the same: make sure my accounts were actually hardened.
+
+The problem with where I was: Microsoft Authenticator is a reasonable 2FA app but it's not open-source, it's tied to a Microsoft account, and it doesn't give you much visibility into your backup/recovery chain.
+
+I migrated everything to Ente Auth — open-source, E2E encrypted, cross-device sync, GitHub-verifiable. The migration took about 45 minutes:
+
+1. Enabled TOTP on Cloudflare via Ente Auth
+2. Enabled TOTP + passkey on Vercel via Ente Auth (using my computer as the passkey device)
+3. Verified GitHub 2FA was active — critical, since this is the auth backbone for Vercel
+
+The passkey on Vercel specifically matters: even if someone had my password and TOTP seed, the passkey is device-bound and can't be phished.
+
+Step 3: Work the Cloudflare Findings
+
+While I was doing this, Cloudflare's Security Insights scan had surfaced four findings on securi-tee.com. Convenient timing.
+
+* Account without MFA - Fixed — Ente Auth TOTP added 
+* AI Labyrinth not enabled - Enabled 
+* security.txt not configured - Created 
+* No Turnstile on forms - Deferred — no forms on the site yet 
+
+security.txt is worth a quick note. It's a standardized file at \`/.well-known/security.txt\` that tells security researchers how to reach you if they find something. Creating it also forced me to set up a proper contact address.
+
+Step 4: Build Proper Email Infrastructure
+
+Before this incident, contact\@securi-tee.com didn't exist. The site had no professional contact address, no security contact, no disclosed channel for responsible disclosure.
+
+Fixed that:
+
+* \`contact\@securi-tee.com\` → Cloudflare Email Routing → my Gmail
+
+This took 20 minutes and was overdue.
+
+Step 5: Document the Deferred Decisions
+
+Not everything needed to be fixed immediately. But "I'll do it later" without documentation is just forgetting. I wrote down the reasoning for every deferred decision:
+
+* Vercel GitHub App permissions — Vercel had a March 2026 update requesting Actions read + Workflows read/write. Legitimate update, predates the breach. I deferred acceptance on least-privilege grounds: I don't use Vercel Agent or v0 CI/CD features yet, so I don't need those permissions. Accept when those features become relevant.
+* Cloudflare Turnstile — No forms on the site. No point configuring anti-bot protection for forms that don't exist. Add before building any contact form.
+* TINA\_TOKEN rotation — Read-only, already-public content. Not worth the rotation overhead. Revisit if TinaCMS expands scope.
+
+What's Still On The List
+
+The hardening that takes more time:
+
+* DMARC/SPF/DKIM — Email authentication records protect the domain from spoofing. Now that I'm sending email from securi-tee.com addresses, these matter. Start with \`p=none\` DMARC for monitoring, tighten to \`p=quarantine\` after verifying legitimate mail flow.
+* Vulnerability Disclosure Policy — security.txt references a Policy URL that doesn't exist yet. I need a one-page VDP on the site: scope, safe harbor language, preferred disclosure method, response SLA. This is also portfolio material in itself.
+* GitHub OAuth app audit — Settings → Applications → Authorized OAuth apps. Verify no unexpected apps have access. Should take 10 minutes.
+
+What This Demonstrates (and Why It Matters)
+
+I want to be direct about something: this post exists because the incident happened, and because documenting it is the right professional move. 
+
+An incident response on your own infrastructure is low-stakes compared to a production system with real users. But the process is identical: triage scope, assess blast radius, remediate highest-risk items first, document deferred decisions and their reasoning, close the loop on the remaining list.
+
+That's what SOC roles care about. Not "did you have an incident" — they expect you to have them. "Did you handle it systematically, can you explain your reasoning, and did you follow through?"
+
+Here's the whole thing in 90 minutes:
+
+* Authenticated: TOTP + passkey across Vercel, Cloudflare, GitHub
+* Email infrastructure: two professional aliases, Gmail send-as configured
+* Security tooling: AI Labyrinth enabled, security.txt live
+* Deferred items: documented with reasoning, not just forgotten
+* Open list: DMARC/SPF/DKIM, VDP page, OAuth audit
+
+The Vercel breach may have been close to affecting me or missed me by a mile — I don't know yet. Either way, my stack is harder than it was yesterday.
