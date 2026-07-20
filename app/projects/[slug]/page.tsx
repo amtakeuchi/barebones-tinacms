@@ -1,13 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { client } from "../../../tina/__generated__/client";
 import { notFound } from "next/navigation";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
-import { ProjectFullscreenImage } from "./ProjectFullscreenImage";
 
 export async function generateStaticParams() {
   try {
-    const projectsResponse = await client.queries.projectConnection();
-    const edges = projectsResponse.data.projectConnection.edges ?? [];
+    const res = await client.queries.projectConnection();
+    const edges = res.data.projectConnection.edges ?? [];
     return edges
       .filter((edge): edge is NonNullable<typeof edge> => edge?.node != null)
       .map((edge) => ({ slug: edge.node!._sys.filename }));
@@ -17,103 +17,76 @@ export async function generateStaticParams() {
 }
 
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let project: any = null;
-  let error = null;
-
   try {
-    const result = await client.queries.project({
-      relativePath: `${slug}.md`,
-    });
-    project = result.data.project;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    error = err.message;
+    const res = await client.queries.project({ relativePath: `${params.slug}.md` });
+    project = res.data.project;
+  } catch (_err) {
+    return notFound();
   }
-
-  if (!project || error) {
-    notFound();
-  }
+  if (!project) return notFound();
 
   return (
-    <div>
-      {/* Header */}
-      <section className="hero">
-        <div className="container">
-          <Link href="/projects" className="btn btn-ghost mb-4">
-            ← Back to Projects
-          </Link>
+    <article className="page">
+      <div className="wrap prose-wrap">
+        <p className="article-back">
+          <Link href="/projects">&larr; projects</Link>
+        </p>
+
+        <header className="article-head">
+          {project.category && <p className="article-meta">{project.category}</p>}
           <h1>{project.title}</h1>
-          {project.category && (
-            <span className="project-category">{project.category}</span>
+          {project.description && (
+            <p className="article-excerpt">{project.description}</p>
           )}
-        </div>
-      </section>
+        </header>
 
-      {/* Project Content */}
-      <section className="section">
-        <div className="container">
-          {/* Project Image - Full Width */}
-          {project.thumbnail && (
-            <div className="project-hero-image mb-6">
-              <ProjectFullscreenImage 
-                src={project.thumbnail} 
-                alt={project.title}
-              />
-            </div>
-          )}
+        {project.thumbnail && (
+          <Image
+            className="article-img"
+            src={project.thumbnail}
+            alt={project.title}
+            width={1200}
+            height={630}
+            quality={90}
+            sizes="(max-width: 768px) 100vw, 44rem"
+            priority
+          />
+        )}
 
-          {/* Project Details - Full Width */}
-          <div className="project-content">
-            <div className="card">
-              <div className="card-body">
-                <h2>Project Overview</h2>
-                {project.description && (
-                  <p className="project-description mb-4">{project.description}</p>
-                )}
-                {project.body && (
-                  <div className="project-body prose">
-                    <TinaMarkdown content={project.body} />
-                  </div>
-                )}
-                
-                <div className="project-links">
-                  {project.liveLink && (
-                    <a 
-                      href={project.liveLink} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="btn btn-primary"
-                    >
-                      View Live Demo
-                    </a>
-                  )}
-                  {project.repoLink && (
-                    <a 
-                      href={project.repoLink} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="btn btn-secondary"
-                    >
-                      View Source Code
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
+        {project.body && (
+          <div className="prose">
+            <TinaMarkdown content={project.body} />
           </div>
-        </div>
-      </section>
+        )}
 
-      {/* Back to Projects */}
-      <section className="section">
-        <div className="container text-center">
-          <Link href="/projects" className="btn btn-ghost">
-            ← Back to All Projects
+        <div className="article-links">
+          {project.repoLink && (
+            <a
+              className="text-link"
+              href={project.repoLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              source <span className="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          )}
+          {project.liveLink && (
+            <a
+              className="text-link"
+              href={project.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              live <span className="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          )}
+          <Link className="text-link" href="/projects">
+            all projects <span className="arrow" aria-hidden="true">&rarr;</span>
           </Link>
         </div>
-      </section>
-    </div>
+      </div>
+    </article>
   );
-} 
+}

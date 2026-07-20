@@ -694,6 +694,161 @@ section.block { padding-block: var(--s-32); }
 .site-footer .duality { color: var(--faint); }
 
 /* ============================================================
+   INNER PAGES · blog list, project list, article, about.
+   no hero here: a mono command line, a plain title, then the
+   content. clears the fixed header, keeps the footer low.
+   ============================================================ */
+.page {
+  padding-top: calc(64px + var(--s-16));
+  padding-bottom: var(--s-24);
+  min-height: 100svh;
+}
+.page-head { margin-bottom: var(--s-16); }
+.page-cmd {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-bottom: var(--s-6);
+}
+.page-cmd .ps1 { color: var(--faint); }
+.page-head h1 {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.025em;
+}
+.page-lead {
+  margin-top: var(--s-4);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+/* list rows reuse .feed / .writeup from recent work. a plain
+   writeup (no data-track) still underlines its title on hover. */
+.writeup:hover h3, .writeup:active h3 { color: var(--text); }
+
+/* ---- article + project detail: narrow reading column ---- */
+.prose-wrap { max-width: 44rem; }
+.article-back {
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  margin-bottom: var(--s-12);
+}
+.article-back a {
+  display: inline-flex; align-items: center; gap: var(--s-2);
+  min-height: 44px;
+  color: var(--muted); text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+.article-back a:hover { color: var(--text); border-color: var(--text); }
+.article-head { margin-bottom: var(--s-12); }
+.article-meta {
+  font-family: var(--font-mono); font-size: var(--text-xs);
+  letter-spacing: 0.08em; color: var(--faint);
+  margin-bottom: var(--s-4);
+}
+.article-head h1 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.02em;
+}
+.article-excerpt {
+  margin-top: var(--s-6);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.article-tags {
+  display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-6);
+  font-family: var(--font-mono); font-size: var(--text-xs);
+  letter-spacing: 0.08em; color: var(--faint);
+}
+.article-img {
+  width: 100%; height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--s-12);
+}
+.article-links {
+  display: flex; gap: var(--s-8); flex-wrap: wrap;
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line-soft);
+}
+
+/* ---- prose: TinaMarkdown output, dark + readable ---- */
+.prose { color: var(--text); font-size: var(--text-base); line-height: var(--leading-base); }
+.prose > * + * { margin-top: var(--s-6); }
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-weight: 600; line-height: var(--leading-snug);
+  letter-spacing: -0.015em;
+  margin-top: var(--s-16); margin-bottom: var(--s-2);
+}
+.prose h1 { font-size: var(--text-xl); }
+.prose h2 { font-size: var(--text-lg); }
+.prose h3 { font-size: var(--text-base); color: var(--text); }
+.prose h4 { font-size: var(--text-base); color: var(--muted); }
+.prose h2, .prose h3 { padding-top: var(--s-4); border-top: 1px solid var(--line-soft); }
+.prose p { color: var(--muted); }
+.prose strong { color: var(--text); font-weight: 600; }
+.prose a {
+  color: var(--defense); text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: var(--defense-dim);
+  transition: text-decoration-color var(--dur-base) var(--ease-out);
+}
+.prose a:hover { text-decoration-color: var(--defense); }
+.prose ul, .prose ol { padding-left: var(--s-6); color: var(--muted); }
+.prose li + li { margin-top: var(--s-2); }
+.prose ul li::marker { color: var(--faint); }
+.prose ol li::marker { color: var(--faint); font-family: var(--font-mono); }
+.prose blockquote {
+  border-left: 2px solid var(--offense);
+  padding-left: var(--s-6);
+  color: var(--text);
+  font-style: normal;
+}
+.prose code {
+  font-family: var(--font-mono); font-size: 0.85em;
+  background: var(--bg-raise);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.4em;
+  color: var(--text);
+}
+.prose pre {
+  background: var(--bg-raise);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--s-6);
+  overflow-x: auto;
+  font-size: var(--text-sm);
+}
+.prose pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+.prose img { border: 1px solid var(--line); border-radius: var(--radius-md); margin-block: var(--s-8); }
+.prose hr { border: 0; border-top: 1px solid var(--line-soft); margin-block: var(--s-12); }
+.prose table {
+  width: 100%; border-collapse: collapse;
+  font-size: var(--text-sm); display: block; overflow-x: auto;
+}
+.prose th, .prose td {
+  text-align: left; padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line-soft);
+}
+.prose th { font-family: var(--font-mono); color: var(--faint); font-weight: 500; letter-spacing: 0.06em; }
+.prose td { color: var(--muted); }
+
+@media (max-width: 480px) {
+  .page { padding-top: calc(64px + var(--s-8)); }
+  .article-head h1 { font-size: var(--text-lg); }
+}
+
+/* ============================================================
    RESPONSIVE · three stops.
    960: pillars and about fold to single column.
    768: hamburger takes over; kanji centers and recedes.

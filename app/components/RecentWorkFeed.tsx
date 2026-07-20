@@ -19,33 +19,33 @@ const WRITEUPS: Writeup[] = [
   {
     track: "offense",
     kind: "blog",
-    date: "2026-06",
-    href: "/blog/ssrf-past-the-allowlist",
-    title: "ssrf variant research: past the allowlist",
-    desc: "a systematic hunt through url parser disagreements, redirect chains, and dns rebinding to map how ssrf filters actually fail in the wild.",
+    date: "2026-03",
+    href: "/blog/I_Security-Audited_My_Own_Portfolio_Site",
+    title: "i security-audited my own portfolio site",
+    desc: "three layers on my own site: manual code review, semgrep sast, owasp zap dast. an exposed cms token, an ssrf, a cors wildcard, an open proxy, and zero security headers.",
     proof: (
       <>
-        <b>14 bypass variants</b> catalogued &middot; <b>3</b> written up nowhere else
+        <b>5 vulns</b> found and fixed &middot; zero findings on app code after
       </>
     ),
   },
   {
-    track: "offense",
+    track: "defense",
     kind: "blog",
-    date: "2026-05",
-    href: "/blog/silentchain-xss-juice-shop",
-    title: "silentchain: an xss hunt on owasp juice shop",
-    desc: "chaining low-noise dom sinks into working payloads on juice shop, with notes on which sanitizer assumptions broke and why.",
-    proof: <>full chain documented &middot; sink to payload, step by step</>,
+    date: "2026-04",
+    href: "/blog/incidentresponsevercelbreach",
+    title: "incident response on a day off: the vercel breach",
+    desc: "my alert feeds said vercel was compromised and my site runs on vercel. four hours later i had a triage timeline, rotated credentials, and clean infrastructure.",
+    proof: <>full triage timeline &middot; the decisions, in order</>,
   },
   {
     track: "tooling",
     kind: "project",
-    date: "2026-04",
-    href: "/projects/autonomous-recon",
-    title: "autonomous recon: a pipeline that hunts while i sleep",
-    desc: "subdomain discovery, live-host triage, and change detection wired into one agent-driven pipeline that files its own findings.",
-    proof: <>runs nightly &middot; findings land as structured reports</>,
+    date: "2026-03",
+    href: "/projects/CyberfeedV2",
+    title: "cyberfeed v2: a personal intelligence dashboard",
+    desc: "37+ rss feeds across security, tech, finance, and world news, scored by importance and filtered by topic, region, and time. python and flask, runs locally.",
+    proof: <>a dozen sites daily &middot; down to 10 minutes flat</>,
   },
 ];
 

@@ -1,116 +1,60 @@
 import Link from "next/link";
-import Image from "next/image";
 import { client } from "../../tina/__generated__/client";
 
 export default async function ProjectsPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let projects: any[] = [];
-  const error = null;
 
   try {
-    const result = await client.queries.projectConnection();
-    projects = result.data.projectConnection.edges
-      ?.map(edge => edge?.node)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .filter((project): project is any => project !== null && project !== undefined) || [];
+    const res = await client.queries.projectConnection();
+    projects =
+      res.data.projectConnection.edges
+        ?.map((edge) => edge?.node)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter((p): p is any => p != null) ?? [];
   } catch (_err) {
-    // Failed to fetch projects
+    // tina layer unavailable during build: render an empty list, not a crash
     projects = [];
   }
 
   return (
-    <div>
-      {/* Header */}
-      <section className="hero">
-        <h1>My Projects</h1>
-        <p>
-          A collection of cybersecurity projects, tools, and research I&apos;ve worked on. 
-          From threat analysis to defensive strategies, these projects represent my journey in digital security.
-        </p>
-      </section>
+    <div className="page">
+      <div className="wrap">
+        <header className="page-head">
+          <p className="page-cmd">
+            <span className="ps1">adam@securi-tee:~$</span> ls projects/
+          </p>
+          <h1>projects</h1>
+          <p className="page-lead">
+            tools and labs i built to prove i could do the job, not just talk about
+            it. source is on github where it makes sense.
+          </p>
+        </header>
 
-      {/* Projects Grid */}
-      <section className="section">
-        {error ? (
-          <div className="card">
-            <div className="card-body">
-              <h2>Unable to Load Projects</h2>
-              <p>There was an error loading the projects. Please try again later.</p>
-              <p><small>Error: {error}</small></p>
-            </div>
-          </div>
-        ) : projects.length === 0 ? (
-          <div className="card">
-            <div className="card-body text-center">
-              <h2>No Projects Yet</h2>
-              <p>I haven&apos;t added any projects yet. Check back soon!</p>
-              <Link href="/admin" className="btn btn-primary">
-                Add Your First Project
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="projects-grid">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {projects.map((project: any) => (
-              <Link 
-                key={project.id} 
+        {projects.length > 0 ? (
+          <div className="feed">
+            {projects.map((project) => (
+              <Link
+                key={project.id}
+                className="writeup"
                 href={`/projects/${project._sys.filename}`}
-                className="card project-card"
               >
-                <div className="card-body">
-                  {project.thumbnail && (
-                    <div className="project-thumbnail">
-                      <Image 
-                        src={project.thumbnail} 
-                        alt={project.title}
-                        width={400}
-                        height={200}
-                        quality={90}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                        style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "8px" }}
-                      />
-                    </div>
-                  )}
+                <span className="date">{project.category ?? "project"}</span>
+                <span>
                   <h3>{project.title}</h3>
-                  {project.category && (
-                    <span className="project-category">{project.category}</span>
-                  )}
-                  {project.description && (
-                    <div className="project-description line-clamp-3">
-                      {typeof project.description === 'string' 
-                        ? project.description 
-                        : 'Project description available'
-                      }
-                    </div>
-                  )}
-                  <div className="project-links">
-                    <span className="btn btn-primary btn-sm">
-                      View Details
-                    </span>
-                  </div>
-                </div>
+                  {project.description && <p>{project.description}</p>}
+                </span>
+                <span className="go" aria-hidden="true">&rarr;</span>
               </Link>
             ))}
           </div>
-        )}
-      </section>
-
-      {/* CTA Section */}
-      <section className="section">
-        <div className="card text-center">
-          <div className="card-body">
-            <h2>Have a Project in Mind?</h2>
-            <p>
-              Interested in collaborating on a cybersecurity project or discussing security challenges? 
-              I&apos;m always open to new opportunities and interesting problems to solve.
-            </p>
-            <Link href="/contact" className="btn btn-primary">
-              Let&apos;s Connect
-            </Link>
+        ) : (
+          <div className="feed-state" data-on="true">
+            <span className="ps1">$</span> ls projects/<br />
+            nothing here yet. builds are in the lab queue.
           </div>
-        </div>
-      </section>
+        )}
+      </div>
     </div>
   );
-} 
+}

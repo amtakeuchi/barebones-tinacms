@@ -1,122 +1,68 @@
 import Link from "next/link";
-import Image from "next/image";
 import { client } from "../../tina/__generated__/client";
+
+function fmtDate(d: string) {
+  return new Date(d).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default async function BlogPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let posts: any[] = [];
+  let posts: Array<{ date: string; [key: string]: any }> = [];
 
   try {
-    const postsResponse = await client.queries.postConnection();
-    const allPosts = (postsResponse.data.postConnection.edges ?? [])
-      .filter((edge): edge is NonNullable<typeof edge> => edge !== null && edge.node !== null)
-      .map((edge) => edge.node)
+    const res = await client.queries.postConnection();
+    posts = (res.data.postConnection.edges ?? [])
+      .map((edge) => edge?.node)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .filter((post) => post && post.date) as Array<{ date: string; [key: string]: any }>;
-
-    posts = allPosts.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return dateB - dateA; // Sort by date, newest first
-    });
+      .filter((p): p is any => p != null && !!p.date)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   } catch (_err) {
-    // TinaCMS not available during build, showing empty blog
+    // tina layer unavailable during build: render an empty list, not a crash
     posts = [];
   }
 
   return (
-    <div>
-      {/* Header Section */}
-      <section className="hero">
-        <div className="container">
-          <h1>Blog</h1>
-          <p>
-            Thoughts, tutorials, and insights from my journey in cybersecurity and IT. 
-            From threat hunting to cloud security, I share what I learn along the way.
+    <div className="page">
+      <div className="wrap">
+        <header className="page-head">
+          <p className="page-cmd">
+            <span className="ps1">adam@securi-tee:~$</span> ls blog/
           </p>
-        </div>
-      </section>
-      
-      {/* Blog Posts Grid */}
-      <section className="section">
-        <div className="container">
-          {posts.length > 0 ? (
-            <div className="projects-grid">
-              {posts.map((post) => {
-                if (!post) return null;
-                return (
-                  <Link 
-                    key={post.id} 
-                    href={`/blog/${post._sys.filename}`}
-                    className="card project-card"
-                  >
-                    <div className="card-body">
-                      {post.featuredImage && (
-                        <div className="project-thumbnail">
-                          <Image 
-                            src={post.featuredImage} 
-                            alt={post.title}
-                            width={400}
-                            height={200}
-                            quality={90}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                            style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "8px" }}
-                          />
-                        </div>
-                      )}
-                      <div className="blog-meta">
-                        <time dateTime={post.date}>
-                          {new Date(post.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </time>
-                        {post.author && (
-                          <>
-                            <span>•</span>
-                            <span>{post.author}</span>
-                          </>
-                        )}
-                      </div>
-                      <h3 className="project-title">{post.title}</h3>
-                      {post.excerpt && (
-                        <div className="project-description line-clamp-3">
-                          {post.excerpt}
-                        </div>
-                      )}
-                      <div className="project-links">
-                        <span className="btn btn-primary btn-sm">
-                          Read More
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="card text-center">
-              <div className="card-body">
-                <h2>No blog posts yet</h2>
-                <p>
-                  I&apos;m working on some great content about cybersecurity, threat hunting, and IT insights. 
-                  Check back soon for my first post!
-                </p>
-                <div className="mt-4">
-                  <h3>Coming soon:</h3>
-                  <ul className="text-left">
-                    <li>• Threat hunting techniques and tools</li>
-                    <li>• Cloud security best practices</li>
-                    <li>• SOC analyst insights and tips</li>
-                    <li>• Career advice for cybersecurity professionals</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+          <h1>blog</h1>
+          <p className="page-lead">
+            field notes from the two chairs. breaking things, then writing down how
+            they held. no polish, just what actually happened.
+          </p>
+        </header>
+
+        {posts.length > 0 ? (
+          <div className="feed">
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                className="writeup"
+                href={`/blog/${post._sys.filename}`}
+              >
+                <span className="date">{fmtDate(post.date)}</span>
+                <span>
+                  <h3>{post.title}</h3>
+                  {post.excerpt && <p>{post.excerpt}</p>}
+                </span>
+                <span className="go" aria-hidden="true">&rarr;</span>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="feed-state" data-on="true">
+            <span className="ps1">$</span> ls blog/<br />
+            nothing here yet. the archive is warming up.
+          </div>
+        )}
+      </div>
     </div>
   );
-} 
+}

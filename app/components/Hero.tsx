@@ -198,19 +198,19 @@ export function Hero() {
           </span>
         </p>
         <nav className="hero-proof" aria-label="recent work" ref={proofRef}>
-          <a data-track="offense" href="/blog/ssrf-past-the-allowlist">
+          <a data-track="offense" href="/blog/I_Security-Audited_My_Own_Portfolio_Site">
             <span className="mark" aria-hidden="true">offense</span>
-            ssrf variant research: past the allowlist
+            i security-audited my own portfolio site
             <span className="arrow" aria-hidden="true">&rarr;</span>
           </a>
-          <a data-track="offense" href="/blog/silentchain-xss-juice-shop">
-            <span className="mark" aria-hidden="true">offense</span>
-            silentchain: an xss hunt on owasp juice shop
+          <a data-track="defense" href="/blog/incidentresponsevercelbreach">
+            <span className="mark" aria-hidden="true">defense</span>
+            incident response on a day off: the vercel breach
             <span className="arrow" aria-hidden="true">&rarr;</span>
           </a>
-          <a data-track="tooling" href="/projects/autonomous-recon">
+          <a data-track="tooling" href="/projects/CyberfeedV2">
             <span className="mark" aria-hidden="true">tooling</span>
-            autonomous recon: a pipeline that hunts while i sleep
+            cyberfeed v2: a personal intelligence dashboard
             <span className="arrow" aria-hidden="true">&rarr;</span>
           </a>
         </nav>
