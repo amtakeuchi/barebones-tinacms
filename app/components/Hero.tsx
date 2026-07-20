@@ -95,9 +95,11 @@ export function Hero() {
 
     if (reduced) return;
 
-    // whoami typer
+    // whoami typer. word is a constant, NOT read from the DOM: under React
+    // StrictMode the effect runs twice in dev, and reading textContent on the
+    // second pass (after the first cleared it) yields "" -> nothing types.
     if (typeRef.current) {
-      const word = typeRef.current.textContent ?? "";
+      const word = "whoami";
       typeRef.current.textContent = "";
       let ti = 0;
       timers.push(
