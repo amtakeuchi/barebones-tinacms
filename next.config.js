@@ -13,9 +13,11 @@ const nextConfig = {
     ],
   },
   async headers() {
+    // React fast-refresh / HMR needs 'unsafe-eval' in `next dev`; production stays strict (no eval).
+    const devEval = process.env.NODE_ENV === 'production' ? '' : " 'unsafe-eval'";
     const mainSiteCsp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
+      `script-src 'self' 'unsafe-inline'${devEval} https://static.cloudflareinsights.com`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://assets.tina.io",
       "font-src 'self'",
