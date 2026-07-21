@@ -856,7 +856,9 @@ section.block { padding-block: var(--s-32); }
    ============================================================ */
 @media (max-width: 960px) {
   .pillar { grid-template-columns: 4rem minmax(0, 1fr); }
-  .pillar .detail { grid-column: 2; }
+  /* detail + tags are wrapped in a div, so target the div (not .detail,
+     which isn't the grid item) or it drops into the 4rem number rail */
+  .pillar > div { grid-column: 2; }
   .about-grid { grid-template-columns: 1fr; gap: var(--s-12); }
   .writeup { grid-template-columns: minmax(0, 1fr) auto; }
   .writeup .date { grid-column: 1 / -1; padding-top: 0; }

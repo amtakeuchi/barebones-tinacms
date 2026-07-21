@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 type Track = "offense" | "defense" | "tooling";
@@ -56,40 +57,9 @@ const FILTERS: { key: "all" | Track; label: string }[] = [
   { key: "tooling", label: "tooling" },
 ];
 
-type MoreState = "idle" | "loading" | "error" | "end";
-
 export function RecentWorkFeed() {
   const [filter, setFilter] = useState<"all" | Track>("all");
-  const [moreState, setMoreState] = useState<MoreState>("idle");
-  const triedRef = useRef(false);
-  const retryBtnRef = useRef<HTMLButtonElement>(null);
-
   const rows = WRITEUPS.filter((w) => filter === "all" || w.track === filter);
-
-  useEffect(() => {
-    if (moreState === "error") retryBtnRef.current?.focus();
-  }, [moreState]);
-
-  function fetchMore() {
-    if (moreState === "loading") return;
-    setMoreState("loading");
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setTimeout(() => {
-      if (!triedRef.current) {
-        triedRef.current = true;
-        setMoreState("error");
-      } else {
-        setMoreState("end");
-      }
-    }, reduced ? 60 : 900);
-  }
-
-  function selectFilter(key: "all" | Track) {
-    setFilter(key);
-    setMoreState("idle");
-  }
-
-  const moreVisible = rows.length > 0 && moreState !== "error" && moreState !== "end";
 
   return (
     <section className="block reveal" id="recent" aria-labelledby="recent-title">
@@ -106,7 +76,7 @@ export function RecentWorkFeed() {
               type="button"
               data-filter={f.key}
               aria-pressed={filter === f.key}
-              onClick={() => selectFilter(f.key)}
+              onClick={() => setFilter(f.key)}
             >
               {f.label}
             </button>
@@ -127,66 +97,12 @@ export function RecentWorkFeed() {
               <span className="go" aria-hidden="true">&rarr;</span>
             </a>
           ))}
-          {moreState === "loading" && (
-            <>
-              <div className="skel" aria-hidden="true">
-                <span style={{ width: "5rem" }} />
-                <span style={{ width: "62%" }} />
-              </div>
-              <div className="skel" aria-hidden="true">
-                <span style={{ width: "5rem" }} />
-                <span style={{ width: "62%" }} />
-              </div>
-            </>
-          )}
         </div>
 
-        <div className="feed-state" data-on={rows.length === 0 ? "true" : "false"}>
-          <span className="ps1">$</span> ls write-ups/defense/<br />
-          nothing here yet. detection engineering notes are in the lab queue.
-          <button type="button" onClick={() => selectFilter("all")}>
-            show everything instead
-          </button>
-        </div>
-
-        <div className="feed-state" data-on={moreState === "end" ? "true" : "false"}>
-          <span className="ps1">$</span> fetch --more<br />
-          that&apos;s the whole archive for now. more write-ups are in progress.
-        </div>
-
-        <div className="feed-state" data-on={moreState === "error" ? "true" : "false"} role="alert">
-          <span className="ps1">$</span> fetch --more<br />
-          <span className="err">error:</span> connection reset by peer. the archive is still warm, though.
-          <button
-            type="button"
-            ref={retryBtnRef}
-            onClick={() => {
-              setMoreState("idle");
-              fetchMore();
-            }}
-          >
-            retry
-          </button>
-        </div>
-
-        <div className="feed-more" style={{ display: moreVisible ? "" : "none" }}>
-          <a
-            id="btn-more"
-            href="/work"
-            aria-disabled={moreState === "loading"}
-            onClick={(e) => {
-              e.preventDefault();
-              fetchMore();
-            }}
-          >
-            {moreState === "loading" ? (
-              "$ fetch --more ..."
-            ) : (
-              <>
-                $ fetch --more <span aria-hidden="true">&rarr;</span>
-              </>
-            )}
-          </a>
+        <div className="feed-more">
+          <Link id="btn-more" href="/work">
+            $ fetch --more <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
       </div>
     </section>
