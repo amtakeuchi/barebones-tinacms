@@ -128,8 +128,8 @@ export default function HomePage() {
             have something that needs <strong>breaking</strong>, or holding together?
           </p>
           <div className="contact-links">
-            <a className="text-link" href="mailto:adam@securi-tee.dev">
-              adam@securi-tee.dev <span className="arrow" aria-hidden="true">&rarr;</span>
+            <a className="text-link" href="/contact">
+              email <span className="arrow" aria-hidden="true">&rarr;</span>
             </a>
             <a className="text-link" href="https://www.linkedin.com/in/adam-takeuchi/" target="_blank" rel="noopener noreferrer">
               linkedin <span className="arrow" aria-hidden="true">&rarr;</span>
