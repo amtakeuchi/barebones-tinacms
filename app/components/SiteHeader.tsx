@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { href: "/#about", label: "about" },
   { href: "/blog", label: "blog" },
   { href: "/projects", label: "projects" },
-  { href: "/#contact", label: "contact" },
+  { href: "/contact", label: "contact" },
 ];
 
 export function SiteHeader() {

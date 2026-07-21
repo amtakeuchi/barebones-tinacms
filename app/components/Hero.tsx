@@ -215,7 +215,7 @@ export function Hero() {
           </a>
         </nav>
         <div className="hero-contact" ref={ctaRef}>
-          <a className="text-link" href="#contact">
+          <a className="text-link" href="/contact">
             get in touch <span className="arrow" aria-hidden="true">&rarr;</span>
           </a>
         </div>
