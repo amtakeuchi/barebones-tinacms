@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { WRITEUPS } from "../content/featured-work";
 
 const GLYPHS = "!<>-_\\/[]{}—=+*^?#________";
 function rglyph() {
@@ -92,6 +93,7 @@ export function Hero() {
     const timers: ReturnType<typeof setTimeout>[] = [];
     const cancels: Array<() => void> = [];
     let kanjiInterval: ReturnType<typeof setTimeout> | undefined;
+    let live = true;
 
     if (reduced) return;
 
@@ -104,7 +106,7 @@ export function Hero() {
       let ti = 0;
       timers.push(
         setTimeout(function tick() {
-          if (!typeRef.current) return;
+          if (!live || !typeRef.current) return;
           typeRef.current.textContent = word.slice(0, ++ti);
           if (ti < word.length) timers.push(setTimeout(tick, 32));
         }, 120)
@@ -125,6 +127,7 @@ export function Hero() {
 
       timers.push(
         setTimeout(() => {
+          if (!live) return;
           const container = containerRefs[line.key].current;
           if (container) container.style.opacity = "1";
           const cancel = streamGlitch(fx, line.text, {
@@ -142,6 +145,7 @@ export function Hero() {
 
     timers.push(
       setTimeout(() => {
+        if (!live) return;
         proofRef.current?.classList.add("reveal");
         ctaRef.current?.classList.add("reveal");
       }, maxTime + 60)
@@ -151,6 +155,7 @@ export function Hero() {
     const kanji = kanjiRef.current;
     if (kanji) {
       const fire = () => {
+        if (!live) return;
         kanji.classList.add("glitch");
         timers.push(setTimeout(() => kanji.classList.remove("glitch"), 480));
         kanjiInterval = setTimeout(fire, 3200 + Math.random() * 1700);
@@ -159,6 +164,7 @@ export function Hero() {
     }
 
     return () => {
+      live = false;
       timers.forEach(clearTimeout);
       cancels.forEach((c) => c());
       if (kanjiInterval) clearTimeout(kanjiInterval);
@@ -198,21 +204,13 @@ export function Hero() {
           </span>
         </p>
         <nav className="hero-proof" aria-label="recent work" ref={proofRef}>
-          <a data-track="offense" href="/blog/I_Security-Audited_My_Own_Portfolio_Site">
-            <span className="mark" aria-hidden="true">offense</span>
-            i security-audited my own portfolio site
-            <span className="arrow" aria-hidden="true">&rarr;</span>
-          </a>
-          <a data-track="defense" href="/blog/incidentresponsevercelbreach">
-            <span className="mark" aria-hidden="true">defense</span>
-            incident response on a day off: the vercel breach
-            <span className="arrow" aria-hidden="true">&rarr;</span>
-          </a>
-          <a data-track="tooling" href="/projects/CyberfeedV2">
-            <span className="mark" aria-hidden="true">tooling</span>
-            cyberfeed v2: a personal intelligence dashboard
-            <span className="arrow" aria-hidden="true">&rarr;</span>
-          </a>
+          {WRITEUPS.map((w) => (
+            <a key={w.href} data-track={w.track} href={w.href}>
+              <span className="mark" aria-hidden="true">{w.track}</span>
+              {w.title}
+              <span className="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          ))}
         </nav>
         <div className="hero-contact" ref={ctaRef}>
           <a className="text-link" href="/contact">

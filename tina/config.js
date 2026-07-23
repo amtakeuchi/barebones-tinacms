@@ -33,5 +33,8 @@ export const config = defineConfig({
   localApi: process.env.NODE_ENV === 'development',
 });
 
-// A comment to force a change
+if (process.env.NODE_ENV === 'production' && !process.env.TINA_TOKEN && !process.env.NEXT_PUBLIC_TINA_TOKEN) {
+  console.warn('[tina] No TINA_TOKEN found — admin panel will not authenticate in production.');
+}
+
 export default config;

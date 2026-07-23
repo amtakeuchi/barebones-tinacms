@@ -49,7 +49,7 @@ export function SiteHeader() {
 
   useEffect(() => {
     if (!open && lastFocus.current) {
-      lastFocus.current.focus();
+      if (document.contains(lastFocus.current)) lastFocus.current.focus();
       lastFocus.current = null;
     }
   }, [open]);
